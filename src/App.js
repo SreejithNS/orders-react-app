@@ -4,8 +4,13 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import Check from '@material-ui/icons/Check';
+import SettingsIcon from '@material-ui/icons/Settings';
+import Divider from '@material-ui/core/Divider'
+
+import { Switch, Route, Link } from 'react-router-dom';
+import Settings from './pages/Settings';
+import YourOrders from './pages/YourOrders';
 
 class App extends Component {
   constructor(props){
@@ -13,6 +18,18 @@ class App extends Component {
     this.state = {
       navigationBarOpen: false
     }
+    this.navigationBarOptions = [
+      {
+        name:'Your orders',
+        path:'YourOrders',
+        icon:<Check/>
+      },
+      {
+        name:'Settings',
+        path:'Settings',
+        icon:<SettingsIcon />
+      }
+    ]
     this.toggle= {
       open:()=>{
         this.setState({navigationBarOpen:true})
@@ -23,19 +40,29 @@ class App extends Component {
     }
   }
   render() {
-    const {state,toggle} = this;
+    const {state,toggle,navigationBarOptions} = this;
     return (
       <div>
         <SwipeableDrawer open={state.navigationBarOpen} onOpen={toggle.open} onClose={toggle.close}>
           <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          {navigationBarOptions.map((tile, index) => (
+            <Link to={`/${tile.path}`} key={index}>
+            <ListItem button key={tile.name}>
+              <ListItemIcon>{tile.icon}</ListItemIcon>
+              <ListItemText primary={tile.name} />
             </ListItem>
+            </Link>
           ))}
           </List>
+          <Divider/>
         </SwipeableDrawer>
+
+        <Switch>
+          
+            <Route path="/YourOrders" component={YourOrders}/>
+            <Route path="/Settings" component={Settings}/>
+          
+          </Switch>
       </div>
     );
   }
