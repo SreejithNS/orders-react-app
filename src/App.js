@@ -21,7 +21,7 @@ class App extends Component {
     this.navigationBarOptions = [
       {
         name:'Your orders',
-        path:'YourOrders',
+        path:'',
         icon:<Check/>
       },
       {
@@ -30,7 +30,7 @@ class App extends Component {
         icon:<SettingsIcon />
       }
     ]
-    this.toggle= {
+    this.toggleNavigationBar= {
       open:()=>{
         this.setState({navigationBarOpen:true})
       },
@@ -40,10 +40,10 @@ class App extends Component {
     }
   }
   render() {
-    const {state,toggle,navigationBarOptions} = this;
+    const {state,toggleNavigationBar,navigationBarOptions} = this;
     return (
       <div>
-        <SwipeableDrawer open={state.navigationBarOpen} onOpen={toggle.open} onClose={toggle.close}>
+        <SwipeableDrawer open={state.navigationBarOpen} onOpen={toggleNavigationBar.open} onClose={toggleNavigationBar.close}>
           <List>
           {navigationBarOptions.map((tile, index) => (
             <Link to={`/${tile.path}`} key={index}>
@@ -59,8 +59,12 @@ class App extends Component {
 
         <Switch>
           
-            <Route path="/YourOrders" component={YourOrders}/>
-            <Route path="/Settings" component={Settings}/>
+            <Route exact path="/">
+              <YourOrders toggleNavigationBar={this.toggleNavigationBar}/>
+            </Route>
+            <Route path="/Settings">
+             <Settings toggleNavigationBar={this.toggleNavigationBar}/>
+            </Route>
           
           </Switch>
       </div>
