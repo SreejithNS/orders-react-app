@@ -46,7 +46,7 @@ class App extends Component {
         <SwipeableDrawer open={state.navigationBarOpen} onOpen={toggleNavigationBar.open} onClose={toggleNavigationBar.close}>
           <List>
           {navigationBarOptions.map((tile, index) => (
-            <Link to={`/${tile.path}`} key={index}>
+            <Link to={`/${tile.path}`} key={index} style={{textDecoration:'none'}} onClick={toggleNavigationBar.close}>
             <ListItem button key={tile.name}>
               <ListItemIcon>{tile.icon}</ListItemIcon>
               <ListItemText primary={tile.name} />
@@ -65,7 +65,7 @@ class App extends Component {
             <Route path="/Settings">
              <Settings toggleNavigationBar={this.toggleNavigationBar}/>
             </Route>
-          
+            
           </Switch>
       </div>
     );
