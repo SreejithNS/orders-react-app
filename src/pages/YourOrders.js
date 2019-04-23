@@ -21,12 +21,12 @@ var css = {
 };
 
 class YourOrders extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
+
+
+        state = {
             pageTitle:'Your Orders'
         }
-    }
+
     
     render(){
         const {state,props} = this
@@ -34,7 +34,7 @@ class YourOrders extends Component{
             <div className={props.classes.root}>
                 <AppBar position="static">
                     <Toolbar>
-                    <IconButton className={props.classes.menuButton} color="inherit" aria-label="Menu"  onClick={props.toggleNavigationBar.open}>
+                    <IconButton className={props.classes.menuButton} color="inherit" aria-label="Menu"  onClick={props.toggleSideMenu}>
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" className={props.classes.grow}>

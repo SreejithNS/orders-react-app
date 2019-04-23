@@ -12,13 +12,11 @@ import { Switch, Route, Link } from 'react-router-dom';
 import Settings from './pages/Settings';
 import YourOrders from './pages/YourOrders';
 
+import {connect} from 'react-redux'
+
 class App extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      navigationBarOpen: false
-    }
-    this.navigationBarOptions = [
+
+    sideMenuOptions = [
       {
         name:'Your orders',
         path:'',
@@ -30,23 +28,15 @@ class App extends Component {
         icon:<SettingsIcon />
       }
     ]
-    this.toggleNavigationBar= {
-      open:()=>{
-        this.setState({navigationBarOpen:true})
-      },
-      close:()=>{
-        this.setState({navigationBarOpen:false})
-      }
-    }
-  }
+  
   render() {
-    const {state,toggleNavigationBar,navigationBarOptions} = this;
+    const {props,sideMenuOptions} = this;
     return (
       <div>
-        <SwipeableDrawer open={state.navigationBarOpen} onOpen={toggleNavigationBar.open} onClose={toggleNavigationBar.close}>
+        <SwipeableDrawer open={props.sideMenu} onOpen={()=>props.openSideMenu()} onClose={()=>props.closeSideMenu()}>
           <List>
-          {navigationBarOptions.map((tile, index) => (
-            <Link to={`/${tile.path}`} key={index} style={{textDecoration:'none'}} onClick={toggleNavigationBar.close}>
+          {sideMenuOptions.map((tile, index) => (
+            <Link to={`/${tile.path}`} key={index} style={{textDecoration:'none'}} onClick={()=>props.closeSideMenu()}>
             <ListItem button key={tile.name}>
               <ListItemIcon>{tile.icon}</ListItemIcon>
               <ListItemText primary={tile.name} />
@@ -60,10 +50,10 @@ class App extends Component {
         <Switch>
           
             <Route exact path="/">
-              <YourOrders toggleNavigationBar={this.toggleNavigationBar}/>
+              <YourOrders toggleSideMenu={()=> {props.toggleSideMenu()}}/>
             </Route>
             <Route path="/Settings">
-             <Settings toggleNavigationBar={this.toggleNavigationBar}/>
+             <Settings toggleSideMenu={()=> {props.toggleSideMenu()}}/>
             </Route>
             
           </Switch>
@@ -71,4 +61,22 @@ class App extends Component {
     );
   }
 }
-export default App;
+const mapStateToProps = (state)=>{
+  return {
+    sideMenu:state.uiReducer.sideMenu
+  }
+}
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    toggleSideMenu:()=>{
+      dispatch({type:'TOGGLE_SIDEMENU'})
+    },
+    openSideMenu:()=>{
+      dispatch({type:'OPEN_SIDEMENU'})
+    },
+    closeSideMenu:()=>{
+      dispatch({type:'CLOSE_SIDEMENU'})
+    }
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(App);

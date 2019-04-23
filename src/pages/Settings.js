@@ -23,19 +23,18 @@ var css = {
 
 
 class Settings extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
+
+        state = {
             pageTitle:'Settings'
         }
-    }
+    
     render(){
         const {props,state} = this
         return(
             <div className={props.classes.root}>
                 <AppBar position="static">
                     <Toolbar>
-                    <IconButton className={props.classes.menuButton} color="inherit" aria-label="Menu"  onClick={props.toggleNavigationBar.open}>
+                    <IconButton className={props.classes.menuButton} color="inherit" aria-label="Menu"  onClick={props.toggleSideMenu}>
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" className={props.classes.grow}>

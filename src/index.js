@@ -4,8 +4,26 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router} from 'react-router-dom';
 import './css/core.css'
-
-ReactDOM.render(<Router><App /></Router>, document.getElementById('root'));
+import store from './redux/store';
+import {Provider} from 'react-redux';
+store.subscribe(()=>{
+    console.log("Store updated!",store.getState())
+});
+store.dispatch({
+    type:'SET_NAME',
+    payload:'Sree'
+})
+store.dispatch({
+    type:'SET_NAME',
+    payload:'Jith'
+})
+ReactDOM.render(
+    <Provider store={store}>
+    <Router>
+        <App />
+    </Router>
+    </Provider>
+, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
