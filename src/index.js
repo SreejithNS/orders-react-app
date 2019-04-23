@@ -7,21 +7,13 @@ import './css/core.css'
 import store from './redux/store';
 import {Provider} from 'react-redux';
 store.subscribe(()=>{
-    console.log("Store updated!",store.getState())
+    return true
 });
-store.dispatch({
-    type:'SET_NAME',
-    payload:'Sree'
-})
-store.dispatch({
-    type:'SET_NAME',
-    payload:'Jith'
-})
 ReactDOM.render(
     <Provider store={store}>
-    <Router>
-        <App />
-    </Router>
+        <Router>
+            <App />
+        </Router>
     </Provider>
 , document.getElementById('root'));
 
