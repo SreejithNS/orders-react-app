@@ -63,7 +63,7 @@ class App extends Component {
 }
 const mapStateToProps = (state)=>{
   return {
-    sideMenu:state.uiReducer.sideMenu
+    sideMenu:state.ui.sideMenu
   }
 }
 const mapDispatchToProps = (dispatch)=>{
