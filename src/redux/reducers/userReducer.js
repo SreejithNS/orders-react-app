@@ -6,7 +6,6 @@ const userReducer = (state = {
         case "SET_USERNAME":
         state = {
             ...state,
-            userLogged:true,
             user:{
                 name:action.payload
             }
