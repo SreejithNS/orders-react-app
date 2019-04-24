@@ -1,5 +1,5 @@
 const userReducer = (state = {
-    userLogged:false,
+    userLogged:true,
     user:{}
 },action)=>{
     switch (action.type){

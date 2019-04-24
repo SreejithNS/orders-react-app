@@ -1,23 +1,24 @@
 import React, { Component, Fragment } from "react";
-import {Button} from "material-ui/core";
-import {Typography} from "material-ui"
-import connect from "react-redux";
+import {Button} from "@material-ui/core";
+import {Typography} from "@material-ui/core"
+import {connect} from "react-redux";
 
 class LoginButton extends Component {
     render(){
-        return
+        const {props} = this;
+        return(
         <Fragment>
             {
                 (!props.user.userLogged)?
                     <Button color="inherit">Login</Button> :
-                    <Typography varient="headline">Username</Typography>
+                    <Typography varient="headline" color="inherit">Username</Typography>
             }
         </Fragment>
+        )
     }
 }
 const stateToProps = (state)=>{
-    user:state.user
+    return {user:state.user}
 }
 
 export default connect(stateToProps)(LoginButton);
-
