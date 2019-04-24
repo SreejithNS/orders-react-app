@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {List,ListItem,ListItemIcon,ListItemText,Divider,SwipeableDrawer} from '@material-ui/core';
-import {Check,SettingsIcon} from '@material-ui/icons';
+import {Check} from '@material-ui/icons';
+import {Settings as SettingsIcon} from '@material-ui/icons';
 
 
 import { Switch, Route, Link } from 'react-router-dom';
@@ -23,7 +24,7 @@ class App extends Component {
         icon:<SettingsIcon />
       }
     ]
-  
+
   render() {
     const {props,sideMenuOptions} = this;
     return (
@@ -43,14 +44,14 @@ class App extends Component {
         </SwipeableDrawer>
 
         <Switch>
-          
+
             <Route exact path="/">
               <YourOrders toggleSideMenu={()=> {props.toggleSideMenu()}}/>
             </Route>
             <Route path="/Settings">
              <Settings toggleSideMenu={()=> {props.toggleSideMenu()}}/>
             </Route>
-            
+
           </Switch>
       </div>
     );
