@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
-import {Typography, Button} from "material-ui/core";
+import {Button} from "material-ui/core";
+import {Typography} from "material-ui"
 import connect from "react-redux";
 
 class LoginButton extends Component {
