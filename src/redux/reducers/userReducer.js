@@ -11,6 +11,19 @@ const userReducer = (state = {
             }
         }
         break;
+
+        case "LOGIN":
+        state = {
+            ...state,
+            userLogged:true
+        }
+        break;
+        case "LOGOUT":
+        state = {
+            ...state,
+            userLogged:false
+        }
+        break;
     }
     return state;
 } 
