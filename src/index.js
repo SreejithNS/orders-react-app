@@ -6,6 +6,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import './css/core.css'
 import store from './redux/store';
 import {Provider} from 'react-redux';
+
 store.subscribe(()=>{
     return true
 });
