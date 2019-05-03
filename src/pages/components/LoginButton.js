@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import {Button} from "@material-ui/core";
-import {Typography} from "@material-ui/core"
 import {connect} from "react-redux";
 import {signIn} from "./actions/authActions";
+import {AccountCircle} from "@material-ui/icons"
 class LoginButton extends Component {
     render(){
         const {props} = this;
@@ -11,7 +11,7 @@ class LoginButton extends Component {
             {
                 (!props.user.userLogged)?
                     <Button color="inherit" onClick={()=>props.login()}>Login</Button> :
-                    <Typography varient="headline" color="inherit">props.user.user.name</Typography>
+                    <Button color="inherit">{props.user.user.name.split(" ")[0]}<AccountCircle /></Button>
             }
         </Fragment>
         )
