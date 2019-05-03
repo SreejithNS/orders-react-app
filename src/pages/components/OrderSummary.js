@@ -49,12 +49,16 @@ class OrderSummary extends Component {
   constructor(props) {
     super();
     this.state = {
-      panelExpansion: false
+      panelExpansion: false,
+      shopName : false
     };
+    this.updater = ()=>{
+        props.data.shop.get().then((docs)=>this.setState({shopName:docs.data().name}))
+    }
   }
-
   render() {
     const { props } = this;
+    this.updater()
     return (
 
         <Grid item xs={12} md={6}>
@@ -74,7 +78,7 @@ class OrderSummary extends Component {
                     disabled
                   >
                     <Store fontSize="small" />
-                    {props.data.shop}
+                    {(this.state.shopName)?this.state.shopName:"Please Wait"}
                   </Button>
                 </Grid>
                 <Grid item xs={6} align="right">
