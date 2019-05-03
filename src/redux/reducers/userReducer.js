@@ -1,5 +1,5 @@
 const userReducer = (state = {
-    userLogged:true,
+    userLogged:false,
     user:{}
 },action)=>{
     switch (action.type){
@@ -12,10 +12,11 @@ const userReducer = (state = {
         }
         break;
 
-        case "LOGIN":
+        case "USER_LOGGED":
         state = {
             ...state,
-            userLogged:true
+            userLogged:true,
+            user:action.payload
         }
         break;
         case "LOGOUT":
