@@ -27,5 +27,5 @@ const userReducer = (state = {
         break;
     }
     return state;
-} 
+}
 export default userReducer;
