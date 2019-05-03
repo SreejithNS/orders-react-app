@@ -11,7 +11,7 @@ class LoginButton extends Component {
             {
                 (!props.user.userLogged)?
                     <Button color="inherit" onClick={()=>props.login()}>Login</Button> :
-                    <Button color="inherit">{props.user.user.name.split(" ")[0]}<AccountCircle /></Button>
+                    <Button color="inherit" style={{textTransform:"capitalize"}}><AccountCircle />{props.user.user.name.split(" ")[0]}</Button>
             }
         </Fragment>
         )
