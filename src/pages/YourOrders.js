@@ -33,27 +33,7 @@ class YourOrders extends Component{
 
 
     render(){
-        // var data = {
-        //     discount: true,
-        //     discountAmount: 100,
-        //     discountPercentage: 2,
-        //     grandTotal: 1200,
-        //     order: [
-        //         {
-        //         amount: 1200,
-        //         itemCode: "SSS",
-        //         itemName: "NO2",
-        //         quantity: 5,
-        //         rate: 240
-        //         }
-        //     ],
-        //     orderedBy: "",
-        //     shop: "MM TRADERS",
-        //     priceListCode: "JITHU",
-        //     timestamp: "April 27, 2019"
-        // };
         const {state,props} = this;
-        console.log(props)
         return(
             <div className={props.classes.root}>
                 <AppBar position="static">
@@ -77,12 +57,21 @@ class YourOrders extends Component{
 
 const mapStateToProps = (state) =>{
     return {
-        orders:state.firestore.ordered.orders
+        orders:state.firestore.ordered.orders,
+        user:state.user
     }
 }
 
-export default compose(connect(mapStateToProps),firestoreConnect([
-    {
-        collection:"orders"
-    }
-]) ,withStyles(css))(YourOrders)
+const queryDefiner =(props)=>{
+    if(!props.user.user.uid) return []
+    return [
+        {
+            collection:"orders",
+            queryParams: [ 'limitToFirst=10' ],
+            where: [
+                ['orderedBy', '==', props.user.user.uid]
+            ]
+        }
+    ]
+}
+export default compose(connect(mapStateToProps),firestoreConnect(queryDefiner) ,withStyles(css))(YourOrders)
