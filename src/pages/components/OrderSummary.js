@@ -59,7 +59,7 @@ class OrderSummary extends Component {
     this.props.data.shop.get().then((docs)=>this.setState({shopName:docs.data().name}))
     return (
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} style={{margin:"3px 5px"}}>
           <ExpansionPanel
             onChange={(event, e) => this.setState({ panelExpansion: e })}
           >
