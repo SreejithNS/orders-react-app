@@ -11,7 +11,9 @@ const uiReducer = (state={
         case 'CLOSE_SIDEMENU':
         state = {...state,sideMenu:false}
         break;
+        default:
+        break;
     }
-    return state;
+    return state
 }
 export default uiReducer;

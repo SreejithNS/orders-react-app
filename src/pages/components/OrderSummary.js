@@ -16,7 +16,6 @@ import {
   AccountCircle,
   Store,
   Timer,
-  ChevronRight,
   Place
 } from "@material-ui/icons";
 
@@ -101,9 +100,8 @@ class OrderSummary extends Component {
                         {props.data.order.map((item,key) => (
                           <Chip
                             key={key}
-                            style={style.chip}
                             label={item.itemName + " - " + item.quantity}
-                            style={{ margin: "3px" }}
+                            style={{...style.chip, margin: "3px" }}
                           />
                         ))}
                       </div>
