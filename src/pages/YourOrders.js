@@ -68,7 +68,7 @@ class YourOrders extends Component{
                     </Toolbar>
                 </AppBar>
                 <Grid container>
-                    {(props.orders)?props.orders.map(ya=><OrderSummary data={ya}/>):"Loading..."}
+                    {(props.orders)?props.orders.map((order,key)=><OrderSummary data={order} key={key}/>):"Loading..."}
                 </Grid>
             </div>
         )

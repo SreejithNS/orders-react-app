@@ -19,10 +19,11 @@ const userReducer = (state = {
             user:action.payload
         }
         break;
-        case "LOGOUT":
+        case "USER_LOGGED_OUT":
         state = {
             ...state,
-            userLogged:false
+            userLogged:false,
+            user:{}
         }
         break;
     }

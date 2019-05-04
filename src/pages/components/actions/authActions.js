@@ -13,5 +13,15 @@ const signIn = () =>{
     })
 }
 }
+const signOut = () =>{
+    return (dispatch,getState,{getFirebase})=>{
+        const firebase = getFirebase();
+        firebase.auth().signOut().then(function() {
+            dispatch({
+                type:"USER_LOGGED_OUT"
+            })
+        })
+}
+}
 
-export {signIn}
+export {signIn,signOut}

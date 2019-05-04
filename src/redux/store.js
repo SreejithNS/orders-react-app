@@ -23,7 +23,7 @@ firebase.auth().onAuthStateChanged((user) =>{
         let uid = user.uid;
         let name = user.displayName;
         let photoURL = user.photoURL;
-        store.dispatch({type:'USER_LOGGED',payload:{uid,name}});
+        store.dispatch({type:'USER_LOGGED',payload:{uid,name,photoURL}});
     }
 });
 

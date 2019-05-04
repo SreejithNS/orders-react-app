@@ -53,7 +53,7 @@ class OrderSummary extends Component {
       shopName : false
     };
   }
-  
+
 
   render() {
     const { props } = this;
@@ -108,7 +108,7 @@ class OrderSummary extends Component {
                         ))}
                       </div>
                     </Grid>
-                    <Grid item xs={6} align="right" alignItem="center" style={style.grandTotal}>
+                    <Grid item xs={6} align="right" style={style.grandTotal}>
                       <Grid container>
                         <Grid item xs={6} align="left" style={{color:"#555"}} >Amount:</Grid>
                         <Grid item xs={6}>{props.data.grandTotal}</Grid>
@@ -136,7 +136,7 @@ class OrderSummary extends Component {
                     </TableHead>
                     <TableBody>
                     {
-                      props.data.order.map(order=><TableRow>
+                      props.data.order.map((order,key)=><TableRow key={key}>
                         <TableCell>{order.itemName}</TableCell>
                         <TableCell>{order.quantity}</TableCell>
                         <TableCell>{order.rate}</TableCell>
