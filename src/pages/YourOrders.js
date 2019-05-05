@@ -9,9 +9,9 @@ import {withStyles} from '@material-ui/core/styles';
 import LoginButton from './components/LoginButton';
 import OrderSummary from "./components/OrderSummary";
 import {firestoreConnect} from 'react-redux-firebase';
-
 import {compose} from "redux";
 import {connect} from "react-redux";
+
 var css = {
     root: {
       flexGrow: 1,
@@ -51,7 +51,7 @@ class YourOrders extends Component{
                 </AppBar>
                 <div style={{maxHeight:"91vh",overflowY:"scroll"}}>
                 <Grid container>
-                    {(props.orders)?props.orders.map((order,key)=><OrderSummary data={order} key={key}/>):"Loading..."}
+                    {(props.orders)?props.orders.map((order)=><OrderSummary data={order} key={order.id}/>):"Loading..."}
                 </Grid>
                 </div>
                 <Fab color="primary" aria-label="Add" style={{position:"absolute",bottom:"16px",right:"16px"}}>

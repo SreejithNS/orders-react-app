@@ -6,6 +6,7 @@ import {signIn,signOut} from "./pages/components/actions/authActions"
 
 import { Switch, Route, Link } from 'react-router-dom';
 import Settings from './pages/Settings';
+import NewOrder from './pages/NewOrder';
 import YourOrders from './pages/YourOrders';
 
 import {connect} from 'react-redux'
@@ -20,6 +21,11 @@ class App extends Component {
       },
       {
         name:'Settings',
+        path:'settings',
+        icon:<SettingsIcon />
+      },
+      {
+        name:'New Order',
         path:'Settings',
         icon:<SettingsIcon />
       }
@@ -60,8 +66,11 @@ class App extends Component {
             <Route exact path="/">
               <YourOrders toggleSideMenu={()=> {props.toggleSideMenu()}}/>
             </Route>
-            <Route path="/Settings">
+            <Route path="/settings">
              <Settings toggleSideMenu={()=> {props.toggleSideMenu()}}/>
+            </Route>
+            <Route path="/neworder">
+             <NewOrder toggleSideMenu={()=> {props.toggleSideMenu()}}/>
             </Route>
 
           </Switch>
