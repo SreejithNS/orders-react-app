@@ -33,14 +33,37 @@ class NewOrder extends Component{
 
     pricelistParser(props){
         var parse={};
-        if(!props.pricelists) return "Please Wait"
+        var listArray=[];
+        if(!props.pricelists) return false
         const list = props.pricelists.filter(pricelist=>pricelist.id=="MAY2019")[0]["TPT"];
 
         list.map(card=>{
             parse[card.brand] = [];
             card.itemslist.map(item=>parse[card.brand].push(item))
         })
-        return parse;
+        
+        for(var brand in parse){
+            var array1=[];var array2 =[];var array3=[];
+            parse[brand].map(item=>{
+                if(((item.itemCode.replace(/\D/g,"").length) == 1) && (!item.itemCode.includes("CP"))){
+                    
+                    array1.push(item)
+                    parse[brand].filter(e=>e!=item)
+                }else if(item.itemCode.includes("CP")){
+                    
+                    array2.push(item)
+                    parse[brand].filter(e=>e!=item)
+                }else{
+                
+                    array3.push(item)
+                    parse[brand].filter(e=>e!=item)
+                }
+            })
+            listArray.push(array1);
+            listArray.push(array2)
+            listArray.push(array3)
+        }
+        return listArray;
     }
 
     render(){
@@ -60,7 +83,8 @@ class NewOrder extends Component{
                     </Toolbar>
                 </AppBar>
                 <div style={{padding:"8px"}}>
-                    <Button variant="outlined" style={{margin:"3px"}}>Left</Button>
+                    {/*(this.pricelistParser(props)["JITHU"])?this.pricelistParser(props)["JITHU"].map(item=><Button variant="outlined" key={item.itemCode} style={{margin:"3px"}}>{item.itemName}</Button>):"please wait"*/}
+                    {(this.pricelistParser(props))? this.pricelistParser(props).map(box=>box.map(item=><Button variant="outlined" key={item.itemCode} style={{margin:"3px"}}>{item.itemName}</Button>)):"please wait"}
                 </div>
             </div>
         )

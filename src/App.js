@@ -26,7 +26,7 @@ class App extends Component {
       },
       {
         name:'New Order',
-        path:'Settings',
+        path:'neworder',
         icon:<SettingsIcon />
       }
     ]
