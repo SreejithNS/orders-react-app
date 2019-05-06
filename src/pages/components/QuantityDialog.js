@@ -49,7 +49,7 @@ export default class QuantityDialog extends Component {
           onClose={props.toggle}
           TransitionComponent={Transition}
           fullWidth
-          maxWidth={"xs"}
+          maxWidth={"sm"}
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">Quantity</DialogTitle>
