@@ -91,9 +91,11 @@ class NewOrder extends Component{
     }
 
     addItem(item){
+        var newList = this.state.itemsList.push(item);
+        var newTotal = this.state.totalAmount+item.amount;
         this.setState({
-            itemsList:[...this.state.itemsList].push(item),
-            totalAmount:this.state.totalAmount+item.amount
+            itemsList:newList,
+            totalAmount:newTotal
         })
     }
     render(){

@@ -11,7 +11,7 @@ export default class QuantityDialog extends Component {
   constructor(props){
       super(props);
       this.state = {
-        value:0
+        value:null
       };
   }
 
@@ -25,6 +25,9 @@ export default class QuantityDialog extends Component {
           amount:Math.round(this.state.value*rate*100)/100
       })
       toggle()
+      this.setState({
+          value:null
+      })
   }
 
   onChange=(event)=>{
@@ -39,6 +42,7 @@ export default class QuantityDialog extends Component {
         <Dialog
           open={props.open}
           onClose={props.toggle}
+          size="xs"
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">Quantity</DialogTitle>
