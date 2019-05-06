@@ -11,7 +11,7 @@ export default class QuantityDialog extends Component {
   constructor(props){
       super(props);
       this.state = {
-        value:null
+        value:undefined
       };
   }
 
