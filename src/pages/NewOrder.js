@@ -79,7 +79,6 @@ class NewOrder extends Component{
         event.preventDefault();
         event.persist();
         var code,name,weight,rate;
-        console.log(event,event.currentTarget)
         code = event.currentTarget.attributes.code.value;
         weight = event.currentTarget.attributes.weight.value;
         rate = event.currentTarget.attributes.rate.value;
@@ -93,7 +92,6 @@ class NewOrder extends Component{
     addItem(item){
         var newList = [...this.state.itemsList,item];
         var newTotal = this.state.totalAmount+item.amount;
-        console.log(newList)
         this.setState({
             itemsList:newList,
             totalAmount:newTotal

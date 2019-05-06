@@ -6,6 +6,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+
+function Transition(props) {
+  return <Slide direction="down" {...props} />;
+}
 
 export default class QuantityDialog extends Component {
   constructor(props){
@@ -42,7 +47,9 @@ export default class QuantityDialog extends Component {
         <Dialog
           open={props.open}
           onClose={props.toggle}
-          size="xs"
+          TransitionComponent={Transition}
+          fullWidth
+          maxWidth={"xs"}
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">Quantity</DialogTitle>
@@ -50,6 +57,7 @@ export default class QuantityDialog extends Component {
             <DialogContentText>
               {`${name} - ${weight}g - Rs.${rate}/packet`}
             </DialogContentText>
+            <form onSubmit={(e)=>{e.preventDefault();this.handleAdd()}}>
             <TextField
               autoFocus
               margin="dense"
@@ -60,6 +68,7 @@ export default class QuantityDialog extends Component {
               value={this.state.value}
               placeholder="Enter number of packets"
             />
+            </form>
           </DialogContent>
           <DialogActions>
             <Button onClick={props.toggle} color="secondary">
