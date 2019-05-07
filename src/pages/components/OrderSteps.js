@@ -47,7 +47,7 @@ class OrderSteps extends React.Component {
   handleNext = () => {
     switch(this.state.activeStep){
         case 0:
-        if(this.props.itemsList.length == 0) this.setState({
+        if(this.props.itemsList.length == 0){ this.setState({
             alert:{
                 open:true,
                 title:"No Empty orders",
@@ -56,14 +56,15 @@ class OrderSteps extends React.Component {
                 button2:"Ok"
             }
         })
-        return true 
+        return true
+        }
         break;
     }
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
   };
- 
+
   handleBack = () => {
     this.setState(state => ({
       activeStep: state.activeStep - 1,
@@ -114,7 +115,7 @@ class OrderSteps extends React.Component {
             </div>
           )}
         </div>
-        <AlertDialog {...this.state.alert}/>
+        <AlertDialog {...this.state.alert} handleClose={()=>this.setState({alert:{...this.state.alert,open:false}})}/>
       </div>
     );
   }

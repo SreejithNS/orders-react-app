@@ -79,7 +79,7 @@ class AddItems extends Component {
         })
     }
     tempList(){
-        if(this.state.itemsList.length == 0) return ''
+        if(this.props.itemsList.length == 0) return ''
         return this.state.itemsList.map((item,key)=>
             <Chip
                 label={item.itemName+" - "+item.amount}
@@ -102,9 +102,9 @@ class AddItems extends Component {
         return(
             <Fragment>
                 <div style={{padding:"8px"}}>
-                {(this.pricelistParser(props))? 
+                {(this.pricelistParser(props))?
                     this.pricelistParser(props).map(box=>box.map(item=>
-                    <Button 
+                    <Button
                         variant="outlined"
                         code={item.itemCode}
                         itemname={item.itemName}
@@ -131,13 +131,13 @@ class AddItems extends Component {
                     </Fragment>
                 :""}
                 </div>
-                
+
                 <QuantityDialog
                     addItem={this.addItem.bind(this)}
                     open={this.state.dialogOpen}
                     toggle={this.toggle.bind(this)} {...this.state.selectedItem}
                 />
-            
+
             </Fragment>
         )
     }
@@ -145,7 +145,8 @@ class AddItems extends Component {
 
 const stateToProps = (state) =>{
     return{
-        pricelists:state.firestore.ordered.pricelists
+        pricelists:state.firestore.ordered.pricelists,
+        itemsList:state.order.itemsList
     }
 }
 const dispatchToProps = (dispatch)=>{
