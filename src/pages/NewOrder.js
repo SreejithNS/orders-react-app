@@ -102,12 +102,18 @@ class NewOrder extends Component{
         return this.state.itemsList.map((item,key)=>
             <Chip
                 label={item.itemName+" - "+item.amount}
-                key={item.itemCode}
-                //onDelete={handleChipDelete}
+                key={key}
+                onDelete={(e)=>this.handleChipDelete(e,key)}
                 style={{margin:"3px"}}
                 color="primary"
             />
         )
+    }
+    handleChipDelete(e,key){
+        e.preventDefault();
+        var newList = this.state.itemsList;
+        newList.splice(key,1)
+        this.setState({itemsList:newList});
     }
     render(){
         const {props,state} = this;
