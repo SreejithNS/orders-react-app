@@ -5,12 +5,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {withStyles} from '@material-ui/core/styles';
-import LoginButton from './components/LoginButton'
-import {firestoreConnect} from 'react-redux-firebase';
-import {compose} from "redux";
-import {connect} from "react-redux";
-import {Button, Chip} from "@material-ui/core";
-import QuantityDialog from "./components/QuantityDialog";
+import LoginButton from './components/LoginButton';
+import OrderSteps from './components/OrderSteps';
+
 var css = {
     root: {
       flexGrow: 1,
@@ -31,90 +28,9 @@ class NewOrder extends Component{
     }
         state = {
             pageTitle:'New Order',
-            dialogOpen:false,
-            totalAmount:0,
-            itemsList:[]
+
         }
-    toggle(){
-        this.setState({
-            dialogOpen:!this.state.dialogOpen
-        })
-    }
-    pricelistParser(props){
-        var parse={};
-        var listArray=[];
-        if(!props.pricelists) return false
-        const list = props.pricelists.filter(pricelist=>pricelist.id=="MAY2019")[0]["TPT"];
-
-        list.map(card=>{
-            parse[card.brand] = [];
-            card.itemslist.map(item=>parse[card.brand].push(item))
-        })
-
-        for(var brand in parse){
-            var array1=[];var array2 =[];var array3=[];
-            parse[brand].map(item=>{
-                if(((item.itemCode.replace(/\D/g,"").length) == 1) && (!item.itemCode.includes("CP"))){
-
-                    array1.push(item)
-                    parse[brand].filter(e=>e!=item)
-                }else if(item.itemCode.includes("CP")){
-
-                    array2.push(item)
-                    parse[brand].filter(e=>e!=item)
-                }else{
-
-                    array3.push(item)
-                    parse[brand].filter(e=>e!=item)
-                }
-            })
-            listArray.push(array1);
-            listArray.push(array2)
-            listArray.push(array3)
-        }
-        return listArray;
-    }
-
-    selectItem(event){
-        event.preventDefault();
-        event.persist();
-        var code,name,weight,rate;
-        code = event.currentTarget.attributes.code.value;
-        weight = event.currentTarget.attributes.weight.value;
-        rate = event.currentTarget.attributes.rate.value;
-        name = event.currentTarget.attributes.itemname.value;
-        this.setState({
-            dialogOpen:true,
-            selectedItem:{code,weight,rate,name}
-        })
-    }
-
-    addItem(item){
-        var newList = [...this.state.itemsList,item];
-        var newTotal = this.state.totalAmount+item.amount;
-        this.setState({
-            itemsList:newList,
-            totalAmount:newTotal
-        })
-    }
-    tempList(){
-        if(this.state.itemsList.length == 0) return ''
-        return this.state.itemsList.map((item,key)=>
-            <Chip
-                label={item.itemName+" - "+item.amount}
-                key={key}
-                onDelete={(e)=>this.handleChipDelete(e,key)}
-                style={{margin:"3px"}}
-                color="primary"
-            />
-        )
-    }
-    handleChipDelete(e,key){
-        e.preventDefault();
-        var newList = this.state.itemsList;
-        newList.splice(key,1)
-        this.setState({itemsList:newList});
-    }
+  
     render(){
         const {props,state} = this;
         console.log(state)
@@ -131,16 +47,9 @@ class NewOrder extends Component{
                     <LoginButton/>
                     </Toolbar>
                 </AppBar>
-                <div style={{padding:"8px"}}>
-                    {/*(this.pricelistParser(props)["JITHU"])?this.pricelistParser(props)["JITHU"].map(item=><Button variant="outlined" key={item.itemCode} style={{margin:"3px"}}>{item.itemName}</Button>):"please wait"*/}
-                {(this.pricelistParser(props))? this.pricelistParser(props).map(box=>box.map(item=><Button variant="outlined" code={item.itemCode} itemname={item.itemName} weight={item.itemWeight} rate={item.itemRate} style={{margin:"3px"}} onClick={(e)=>this.selectItem(e)}>{item.itemName}</Button>)):"please wait"}
-                </div>
-                <div style={{padding:"8px"}}>
-                {(this.tempList() != '')?<Typography variant="body2" style={{marginLeft:"3px"}} color="textSecondary">Items in your order:</Typography>:""}
-                {this.tempList()}
-                </div>
-                <QuantityDialog addItem={this.addItem.bind(this)} open={this.state.dialogOpen} toggle={this.toggle.bind(this)} {...this.state.selectedItem}/>
                 
+                <OrderSteps/>
+
             </div>
         )
     }
@@ -152,12 +61,4 @@ const stateToProps = (state) =>{
     }
 }
 
-export default  compose(
-    connect(stateToProps),
-    firestoreConnect([
-        {
-            collection:"pricelists"
-        }
-    ]),
-    withStyles(css)
-    )(NewOrder)
+export default withStyles(css)(NewOrder)
