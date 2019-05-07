@@ -7,6 +7,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {withStyles} from '@material-ui/core/styles';
 import LoginButton from './components/LoginButton';
 import OrderSteps from './components/OrderSteps';
+import {compose} from "redux";
+import {connect} from "react-redux";
 
 var css = {
     root: {
@@ -48,7 +50,7 @@ class NewOrder extends Component{
                     </Toolbar>
                 </AppBar>
                 
-                <OrderSteps/>
+                <OrderSteps itemsList={props.orderList}/>
 
             </div>
         )
@@ -57,8 +59,9 @@ class NewOrder extends Component{
 
 const stateToProps = (state) =>{
     return{
-        pricelists:state.firestore.ordered.pricelists
+        pricelists:state.firestore.ordered.pricelists,
+        orderList:state.order.itemsList
     }
 }
 
-export default withStyles(css)(NewOrder)
+export default compose(connect(stateToProps),withStyles(css))(NewOrder)

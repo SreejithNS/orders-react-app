@@ -7,6 +7,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AddItems from './AddItems';
+import AlertDialog from "./AlertDialog"
 
 const styles = theme => ({
   root: {
@@ -21,7 +22,7 @@ const styles = theme => ({
 });
 
 function getSteps() {
-  return ['Add items', 'Shop', 'Discount'];
+  return ['Items', 'Shop', 'Bill'];
 }
 function content(step){
      switch(step){
@@ -31,25 +32,33 @@ function content(step){
          return "End Reached"
      }
  }
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return 'Add Items to your order';
-    case 1:
-      return 'Shop Name';
-    case 2:
-      return 'Provide Discounts if necessary';
-    default:
-      return 'Unknown stepIndex';
-  }
-}
 
 class OrderSteps extends React.Component {
+    constructor(props){
+        super(props)
+    }
   state = {
     activeStep: 0,
+    alert:{
+        open:false
+    }
   };
 
   handleNext = () => {
+    switch(this.state.activeStep){
+        case 0:
+        if(this.props.itemsList.length == 0) this.setState({
+            alert:{
+                open:true,
+                title:"No Empty orders",
+                content:"You must add atleast one item to the list.",
+                button1:"Sure",
+                button2:"Ok"
+            }
+        })
+        return true 
+        break;
+    }
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
@@ -89,7 +98,6 @@ class OrderSteps extends React.Component {
             </div>
           ) : (
             <div>
-              <Typography variant="body1" className={classes.instructions}>{getStepContent(activeStep)}</Typography>
                 {content(activeStep)}
               <div>
                 <Button
@@ -106,6 +114,7 @@ class OrderSteps extends React.Component {
             </div>
           )}
         </div>
+        <AlertDialog {...this.state.alert}/>
       </div>
     );
   }
