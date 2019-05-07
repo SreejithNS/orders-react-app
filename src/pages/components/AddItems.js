@@ -12,9 +12,7 @@ class AddItems extends Component {
         super(props);
     }
     state={
-        dialogOpen:false,
-        totalAmount:0,
-        itemsList:[]
+        dialogOpen:false
     }
     toggle(){
         this.setState({
@@ -71,16 +69,16 @@ class AddItems extends Component {
     }
 
     addItem(item){
-        var newList = [...this.state.itemsList,item];
-        var newTotal = this.state.totalAmount+item.amount;
-        this.setState({
+        var newList = [...this.props.itemsList,item];
+        var newTotal = this.props.totalAmount+item.amount;
+        this.props.modifyOrder({
             itemsList:newList,
             totalAmount:newTotal
         })
     }
     tempList(){
         if(this.props.itemsList.length == 0) return ''
-        return this.state.itemsList.map((item,key)=>
+        return this.props.itemsList.map((item,key)=>
             <Chip
                 label={item.itemName+" - "+item.amount}
                 key={key}
@@ -92,13 +90,13 @@ class AddItems extends Component {
     }
     handleChipDelete(e,key){
         e.preventDefault();
-        var newList = this.state.itemsList;
+        var newList = this.props.itemsList;
+        var totalAmount = this.props.totalAmount - this.props.itemsList[key].amount
         newList.splice(key,1)
-        this.setState({itemsList:newList});
+        this.props.modifyOrder({itemsList:newList,totalAmount});
     }
     render(){
         const {props,state} = this;
-        if(state.itemsList.length > 0)props.storeOrder(state.itemsList)
         return(
             <Fragment>
                 <div style={{padding:"8px"}}>
@@ -146,7 +144,8 @@ class AddItems extends Component {
 const stateToProps = (state) =>{
     return{
         pricelists:state.firestore.ordered.pricelists,
-        itemsList:state.order.itemsList
+        itemsList:state.order.itemsList,
+        totalAmount:state.order.totalAmount
     }
 }
 const dispatchToProps = (dispatch)=>{
@@ -154,6 +153,10 @@ const dispatchToProps = (dispatch)=>{
         storeOrder:(list)=>dispatch({
             type:'STORE_ORDER',
             payload:list
+        }),
+        modifyOrder:(data)=>dispatch({
+            type:"MODIFY_ORDER",
+            payload:data
         })
     }
 }
