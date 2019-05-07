@@ -9,7 +9,7 @@ import LoginButton from './components/LoginButton'
 import {firestoreConnect} from 'react-redux-firebase';
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {Button} from "@material-ui/core";
+import {Button, Chip} from "@material-ui/core";
 import QuantityDialog from "./components/QuantityDialog";
 var css = {
     root: {
@@ -97,6 +97,18 @@ class NewOrder extends Component{
             totalAmount:newTotal
         })
     }
+    tempList(){
+        if(this.state.itemsList.length == 0) return ''
+        return this.state.itemsList.map((item,key)=>
+            <Chip
+                label={item.itemName+" - "+item.amount}
+                key={item.itemCode}
+                //onDelete={handleChipDelete}
+                style={{margin:"3px"}}
+                color="primary"
+            />
+        )
+    }
     render(){
         const {props,state} = this;
         console.log(state)
@@ -117,7 +129,12 @@ class NewOrder extends Component{
                     {/*(this.pricelistParser(props)["JITHU"])?this.pricelistParser(props)["JITHU"].map(item=><Button variant="outlined" key={item.itemCode} style={{margin:"3px"}}>{item.itemName}</Button>):"please wait"*/}
                 {(this.pricelistParser(props))? this.pricelistParser(props).map(box=>box.map(item=><Button variant="outlined" code={item.itemCode} itemname={item.itemName} weight={item.itemWeight} rate={item.itemRate} style={{margin:"3px"}} onClick={(e)=>this.selectItem(e)}>{item.itemName}</Button>)):"please wait"}
                 </div>
+                <div style={{padding:"8px"}}>
+                {(this.tempList() != '')?<Typography variant="body2" style={{marginLeft:"3px"}} color="textSecondary">Items in your order:</Typography>:""}
+                {this.tempList()}
+                </div>
                 <QuantityDialog addItem={this.addItem.bind(this)} open={this.state.dialogOpen} toggle={this.toggle.bind(this)} {...this.state.selectedItem}/>
+                
             </div>
         )
     }

@@ -48,14 +48,14 @@ export default class QuantityDialog extends Component {
           open={props.open}
           onClose={props.toggle}
           TransitionComponent={Transition}
-          fullWidth
-          maxWidth={"sm"}
+          fullWidth={true}
+          maxWidth={"md"}
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">Quantity</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {`${name} - ${weight}g - Rs.${rate}/packet`}
+              <b>{name}</b> - <b>Rs.{rate}</b>/packet<br/>Weight: {weight}g
             </DialogContentText>
             <form onSubmit={(e)=>{e.preventDefault();this.handleAdd()}}>
             <TextField
