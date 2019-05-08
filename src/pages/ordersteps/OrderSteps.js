@@ -47,7 +47,8 @@ class OrderSteps extends React.Component {
     activeStep: 0,
     alert:{
         open:false
-    }
+    },
+    completed:[]
   };
 
   handleNext = () => {
@@ -66,8 +67,11 @@ class OrderSteps extends React.Component {
         }
         break;
     }
+    var completed=this.state.completed
+    completed[this.state.activeStep] = true;
     this.setState(state => ({
       activeStep: state.activeStep + 1,
+      completed
     }));
   };
 
@@ -82,7 +86,9 @@ class OrderSteps extends React.Component {
       activeStep: 0,
     });
   };
-
+  stepCompleted(index){
+      return this.state.completed[index] || false
+  }
   render() {
     const { classes } = this.props;
     const steps = getSteps();
@@ -91,8 +97,8 @@ class OrderSteps extends React.Component {
     return (
       <div className={classes.root}>
         <Stepper activeStep={activeStep} nonLinear>
-          {steps.map(label => (
-            <Step key={label}>
+          {steps.map((label,key) => (
+            <Step key={label} completed={this.stepCompleted(key)}>
               <StepLabel>{label}</StepLabel>
             </Step>
           ))}
