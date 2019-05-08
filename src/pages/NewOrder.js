@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {withStyles} from '@material-ui/core/styles';
 import LoginButton from './components/LoginButton';
-import OrderSteps from './components/OrderSteps';
+import OrderSteps from './ordersteps/OrderSteps';
 import {compose} from "redux";
 import {connect} from "react-redux";
 
@@ -32,7 +32,7 @@ class NewOrder extends Component{
             pageTitle:'New Order',
 
         }
-  
+
     render(){
         const {props,state} = this;
         console.log(state)
@@ -49,7 +49,7 @@ class NewOrder extends Component{
                     <LoginButton/>
                     </Toolbar>
                 </AppBar>
-                
+
                 <OrderSteps itemsList={props.orderList}/>
 
             </div>
