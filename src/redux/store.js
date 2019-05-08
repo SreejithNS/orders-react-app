@@ -21,7 +21,7 @@ const store = createStore(combineReducers({
     compose(
         applyMiddleware(logger,thunk.withExtraArgument({getFirebase,getFirestore})),
         reduxFirestore(firebase),
-        reactReduxFirebase(firebase)
+        reactReduxFirebase(firebase,{useFirestoreForProfile:true,userProfile:'users',attachAuthIsReady:true})
     )
 );
 

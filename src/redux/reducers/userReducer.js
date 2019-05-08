@@ -1,6 +1,7 @@
 const userReducer = (state = {
     userLogged:false,
-    user:{}
+    user:{},
+    profile:false
 },action)=>{
     switch (action.type){
         case "SET_USERNAME":
@@ -11,7 +12,12 @@ const userReducer = (state = {
             }
         }
         break;
-
+        case "USER_DATA_UPDATED":
+        state = {
+            ...state,
+            profile:true
+        }
+        break;
         case "USER_LOGGED":
         state = {
             ...state,
