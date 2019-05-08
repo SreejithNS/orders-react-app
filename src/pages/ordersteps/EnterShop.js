@@ -5,12 +5,12 @@ import {connect} from "react-redux";
 import {firestoreConnect} from 'react-redux-firebase';
 
 class EnterShop extends Component {
-    constructor(props){
+    constructor(){
         super();
         this.selectShop = id => event =>{
             this.props.setShopName(this.getSuggestionsList(this.props.shopsList)[id].name)
             this.props.setShop(this.getSuggestionsList(this.props.shopsList)[id])
-            }
+        }
         }
         shopNameInput = event=> this.props.setShopName(event.target.value.toUpperCase())
 

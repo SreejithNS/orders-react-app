@@ -36,7 +36,7 @@ export default class QuantityDialog extends Component {
   }
 
   onChange=(event)=>{
-      var value = event.currentTarget.value;
+      var value = event.target.value;
       this.setState({value:value});
   }
 
@@ -64,7 +64,7 @@ export default class QuantityDialog extends Component {
               label="Packets"
               type="number"
               fullWidth
-              onChange={this.onChange.bind(this)}
+              onChange={this.onChange}
               value={this.state.value}
               placeholder="Enter number of packets"
             />
