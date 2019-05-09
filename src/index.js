@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router} from 'react-router-dom';
-import './css/core.css'
 import store from './redux/store';
 import {Provider} from 'react-redux';
+import { CssBaseline } from '@material-ui/core';
 
 store.subscribe(()=>{
     return true
@@ -15,6 +15,7 @@ store.firebaseAuthIsReady.then(()=>{
  ReactDOM.render(
     <Provider store={store}>
         <Router>
+            <CssBaseline />
             <App />
         </Router>
     </Provider>

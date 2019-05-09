@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import {Grid} from "@material-ui/core"
 import Typography from '@material-ui/core/Typography';
 import AddItems from './AddItems';
+import Bill from './Bill';
 import AlertDialog from "./../components/AlertDialog"
 import EnterShop from "./EnterShop";
 import {compose} from "redux";
@@ -37,7 +38,7 @@ function content(step){
          return <EnterShop/>
 
          default:
-         return "End Reached"
+         return <Bill/>
      }
  }
 
