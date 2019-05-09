@@ -23,10 +23,10 @@ class AlertDialog extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.handleClose} color="primary">
+            <Button onClick={this.props.button2Action || this.props.handleClose} color="primary">
               {props.button2 || "Cancel"}
             </Button>
-            <Button onClick={this.props.handleClose} color="primary" autoFocus>
+            <Button onClick={this.props.button1Action || this.props.handleClose} color="primary" autoFocus>
               {props.button1 || "OK"}
             </Button>
           </DialogActions>

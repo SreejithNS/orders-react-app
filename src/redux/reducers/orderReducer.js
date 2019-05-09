@@ -21,6 +21,11 @@ const orderReducer = (state={
         state = {...state,shopName:action.payload}
         break;
 
+        case 'SHOP_CREATED':
+        state = {...state,shop:action.payload}
+        break;
+
+
         default:
         break;
     }

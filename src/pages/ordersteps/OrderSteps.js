@@ -10,7 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import AddItems from './AddItems';
 import AlertDialog from "./../components/AlertDialog"
 import EnterShop from "./EnterShop";
-
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {createShop} from "./actions/NewOrderActions";
 const styles = theme => ({
   root: {
     width: '100%',
@@ -61,6 +63,33 @@ class OrderSteps extends React.Component {
                 content:"You must add atleast one item to the list.",
                 button1:"Sure",
                 button2:"Ok"
+            }
+        })
+        return true
+        }
+        break;
+        case 1:
+        if(this.props.shopName == ""){ this.setState({
+            alert:{
+                open:true,
+                title:"No Shop name!",
+                content:"Search for shops by typing into the button and \n select the shop from the list.",
+                button1:"Sure",
+                button2:"Ok"
+            }
+        })
+        return true
+        }else if(!this.props.shop.name && this.props.shopName != ""){
+            this.setState({
+            alert:{
+                open:true,
+                title:"Seems like a new shop",
+                content:"Do you want to add this shop to your list?",
+                button1:"Yes",
+                button2:"No",
+                button1Action:()=>{
+                    this.props.createShop();
+                }
             }
         })
         return true
@@ -146,5 +175,17 @@ class OrderSteps extends React.Component {
 OrderSteps.propTypes = {
   classes: PropTypes.object,
 };
+const dispatchToProps=(dispatch)=>{
+    return {
+        createShop:()=>dispatch(createShop())
+    }
+}
+const stateToProps = (state)=>{
+    return {
+        itemsList:state.order.itemsList,
+        shop:state.order.shop,
+        shopName:state.order.shopName
+    }
+}
 
-export default withStyles(styles)(OrderSteps);
+export default compose(connect(stateToProps,dispatchToProps),withStyles(styles))(OrderSteps);

@@ -50,7 +50,7 @@ class NewOrder extends Component{
                     </Toolbar>
                 </AppBar>
 
-                <OrderSteps itemsList={props.orderList}/>
+                <OrderSteps />
 
             </div>
         )
@@ -59,8 +59,7 @@ class NewOrder extends Component{
 
 const stateToProps = (state) =>{
     return{
-        pricelists:state.firestore.ordered.pricelists,
-        orderList:state.order.itemsList
+        pricelists:state.firestore.ordered.pricelists
     }
 }
 
