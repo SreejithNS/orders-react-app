@@ -11,8 +11,8 @@ class AlertDialog extends React.Component {
     const {props} = this;
     return (
         <Dialog
-          open={this.props.open}
-          onClose={this.props.handleClose}
+          open={props.open}
+          onClose={props.handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
@@ -23,10 +23,10 @@ class AlertDialog extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.button2Action || this.props.handleClose} color="primary">
+            <Button onClick={props.button2Action || props.handleClose} color="primary">
               {props.button2 || "Cancel"}
             </Button>
-            <Button onClick={this.props.button1Action || this.props.handleClose} color="primary" autoFocus>
+            <Button onClick={props.button1Action || props.handleClose} color="primary" autoFocus>
               {props.button1 || "OK"}
             </Button>
           </DialogActions>
