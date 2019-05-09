@@ -100,7 +100,7 @@ class OrderSummary extends Component {
                         {data.order.map((item,key) => (
                           <Chip
                             key={key}
-                            label={item.itemName + " - " + item.quantity}
+                            label={item.itemName + " - " + item.quantity+"p"}
                             style={{...style.chip, margin: "3px" }}
                           />
                         ))}
