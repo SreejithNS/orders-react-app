@@ -106,11 +106,11 @@ class OrderSummary extends Component {
                         ))}
                       </div>
                     </Grid>
-                    <Grid item xs={6} align="right" style={style.grandTotal}>
-                      <Grid container>
-                        <Grid item xs={6} align="left" style={{color:"#555"}} >Amount:</Grid>
-                        <Grid item xs={6}>{data.grandTotal}</Grid>
-                      </Grid>
+                    <Grid item container justify="flex-end" alignItems="flex-end" xs={6} >
+                        <Grid item container justify="flex-end" alignItems="flex-center" style={style.grandTotal}>
+                        <Grid item style={{color:"#555",textAlign:"right"}} >Amount:</Grid>
+                        <Grid item >{data.grandTotal}</Grid>
+                        </Grid>
                     </Grid>
                   </Fragment>
                 ) : (
