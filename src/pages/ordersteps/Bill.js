@@ -44,7 +44,7 @@ class Bill extends Component {
     render(){
         const data = this.billData();
         return(
-            <Paper>
+            <Paper style={{paddingTop:"6px",margin:"0px 6px"}}>
                 <Grid
                     container
                     direction="row"
