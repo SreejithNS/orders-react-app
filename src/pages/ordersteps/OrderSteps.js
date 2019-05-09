@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
@@ -17,6 +17,7 @@ import {createShop} from "./actions/NewOrderActions";
 const styles = theme => ({
   root: {
     width: '100%',
+    minHeight:"90%"
   },
   backButton: {
     marginRight: theme.spacing.unit,
@@ -125,6 +126,7 @@ class OrderSteps extends React.Component {
     const { activeStep } = this.state;
 
     return (
+    <Fragment>
       <div className={classes.root}>
         <Stepper activeStep={activeStep} nonLinear>
           {steps.map((label,key) => (
@@ -136,14 +138,14 @@ class OrderSteps extends React.Component {
         <Grid
                 container
                 direction="column"
-                justify="space-evenly"
+                justify="space-between"
                 alignItems="stretch"
             >
           {this.state.activeStep === steps.length ? (
-            <div>
+            <Grid item>
               <Typography variant="body1" className={classes.instructions}>All steps completed</Typography>
               <Button onClick={this.handleReset}>Reset</Button>
-            </div>
+            </Grid>
           ) : (
                <Grid
                 container
@@ -151,24 +153,33 @@ class OrderSteps extends React.Component {
                 justify="space-evenly"
                 alignItems="stretch"
                  >
-              {content(activeStep)}
               <Grid item>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={this.handleBack}
-                  className={classes.backButton}
-                >
-                  Back
-                </Button>
-                <Button variant="contained" color="primary" onClick={this.handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
+              {content(activeStep)}
+            </Grid>
+            <Grid item>
+                <Grid container direction="row" alignItem="center" justify="space-between">
+                    <Grid item>
+                        <Button
+                            disabled={activeStep === 0}
+                            onClick={this.handleBack}
+                            className={classes.backButton}
+                            >
+                            Back
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <Button variant="contained" color="primary" onClick={this.handleNext}>
+                        {activeStep === steps.length - 1 ? 'Send' : 'Next'}
+                        </Button>
+                    </Grid>
+                </Grid>
               </Grid>
               </Grid>
           )}
-          </Grid>
+        </Grid>
         <AlertDialog {...this.state.alert} handleClose={()=>this.setState({alert:{...this.state.alert,open:false}})}/>
       </div>
+    </Fragment>
     );
   }
 }

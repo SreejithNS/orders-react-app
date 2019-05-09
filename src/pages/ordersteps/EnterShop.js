@@ -3,6 +3,7 @@ import {TextField, Paper, MenuList, MenuItem,Grid} from '@material-ui/core';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {firestoreConnect} from 'react-redux-firebase';
+import {Store} from "@material-ui/icons"
 
 class EnterShop extends Component {
     constructor(){
@@ -34,8 +35,8 @@ class EnterShop extends Component {
         const {shopsList} = this.props
         return(
             <Fragment>
-            <Grid item>
-            <TextField label="Search Shop" value={this.props.shopName} onChange={this.shopNameInput} margin="normal" variant="outlined" />
+            <Grid item style={{textAlign:"center"}}>
+            <TextField display="inline-block" label="Search Shop" value={this.props.shopName} onChange={this.shopNameInput} margin="normal" variant="outlined" />
             </Grid>
             <Grid item>
             <Paper margin="normal" elevation="0">
@@ -43,7 +44,7 @@ class EnterShop extends Component {
             {(shopsList)?
                 this.getSuggestionsList(shopsList).map((shop,key)=>{
                     return(
-                        <MenuItem key={key} onClick={this.selectShop(key)} selected={this.props.shop.name == shop.name}>{shop.name}</MenuItem>
+                        <MenuItem key={key} onClick={this.selectShop(key)} selected={this.props.shop.name == shop.name}>{this.props.shop.name == shop.name?<Store fontSize="small"/>:""}{shop.name}</MenuItem>
                     )
                 })
             :""}

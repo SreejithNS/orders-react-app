@@ -13,6 +13,7 @@ import {connect} from "react-redux";
 var css = {
     root: {
       flexGrow: 1,
+      height:"90%"
     },
     grow: {
       flexGrow: 1,
