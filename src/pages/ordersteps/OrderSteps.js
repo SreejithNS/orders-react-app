@@ -6,6 +6,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import {Grid} from "@material-ui/core"
+import {Send} from "@material-ui/icons"
 import Typography from '@material-ui/core/Typography';
 import AddItems from './AddItems';
 import Bill from './Bill';
@@ -13,7 +14,7 @@ import AlertDialog from "./../components/AlertDialog"
 import EnterShop from "./EnterShop";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {createShop} from "./actions/NewOrderActions";
+import {createShop,sendBill} from "./actions/NewOrderActions";
 const styles = theme => ({
   root: {
     width: '100%',
@@ -38,8 +39,11 @@ function content(step){
          case 1:
          return <EnterShop/>
 
-         default:
+         case 2:
          return <Bill/>
+
+         case 3:
+         return "Order Sent"
      }
  }
 
@@ -96,6 +100,9 @@ class OrderSteps extends React.Component {
         })
         return true
         }
+        break;
+        case 2:
+        this.props.sendBill();
         break;
     }
     var completed=this.state.completed
@@ -168,8 +175,8 @@ class OrderSteps extends React.Component {
                         </Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" color="primary" onClick={this.handleNext}>
-                        {activeStep === steps.length - 1 ? 'Send' : 'Next'}
+                        <Button variant="contained" color="primary" style={{marginRight:"6px"}} onClick={this.handleNext}>
+                        {(activeStep === steps.length - 1 )? (<Send fontSize="small"/>) : 'Next'}
                         </Button>
                     </Grid>
                 </Grid>
@@ -189,14 +196,16 @@ OrderSteps.propTypes = {
 };
 const dispatchToProps=(dispatch)=>{
     return {
-        createShop:()=>dispatch(createShop())
+        createShop:()=>dispatch(createShop()),
+        sendBill:()=>dispatch(sendBill())
     }
 }
 const stateToProps = (state)=>{
     return {
         itemsList:state.order.itemsList,
         shop:state.order.shop,
-        shopName:state.order.shopName
+        shopName:state.order.shopName,
+        bill:state.order.bill
     }
 }
 

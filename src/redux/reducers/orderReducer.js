@@ -1,8 +1,17 @@
+const initialState={
+    itemsList:[],
+    totalAmount:0,
+    shop:{},
+    shopName:"",
+    bill:{}
+}
+
 const orderReducer = (state={
     itemsList:[],
     totalAmount:0,
     shop:{},
-    shopName:""
+    shopName:"",
+    bill:{}
 },action)=>{
     switch(action.type){
         case 'STORE_ORDER':
@@ -25,6 +34,13 @@ const orderReducer = (state={
         state = {...state,shop:action.payload}
         break;
 
+        case 'SET_BILL':
+        state = {...state,bill:action.payload}
+        break;
+
+        case 'BILL_SENT':
+        state = {...initialState}
+        break;
 
         default:
         break;

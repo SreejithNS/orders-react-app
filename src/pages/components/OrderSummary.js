@@ -18,6 +18,7 @@ import {
   Timer,
   Place
 } from "@material-ui/icons";
+import moment from "moment";
 
 const style = {
   button: {
@@ -55,8 +56,7 @@ class OrderSummary extends Component {
 
 
   render() {
-    const { props } = this;
-    this.props.data.shop.get().then((docs)=>this.setState({shopName:docs.data().name}))
+    const {data} = this.props
     return (
 
         <Grid item xs={12} md={6} style={{margin:"3px 5px"}}>
@@ -68,7 +68,7 @@ class OrderSummary extends Component {
                 <Grid item xs={6}>
                   <Button style={style.button} size="small" disabled>
                     <AccountCircle fontSize="small" />
-                    Sreejith N
+                    {data.ordererName.split(' ')[0]}
                   </Button><br/>
                   <Button
                     style={{ ...style.button}}
@@ -76,7 +76,7 @@ class OrderSummary extends Component {
                     disabled
                   >
                     <Store fontSize="small" />
-                    {(this.state.shopName)?this.state.shopName:"Please Wait"}
+                    {data.shopName}
                   </Button>
                 </Grid>
                 <Grid item xs={6} align="right">
@@ -86,18 +86,18 @@ class OrderSummary extends Component {
                     size="small"
                     disabled
                   >
-                    {"Tirupattur"}<Place fontSize="small" />
+                    {data.location}<Place fontSize="small" />
                   </Button><br/>
                   <Button style={{...style.button}} size="small" disabled>
                     <Timer fontSize="small" />
-                    {props.data.timestamp}
+                    {moment(data.date.toDate()).format('MMMM Do YYYY')}
                   </Button>
                 </Grid>
                 {!this.state.panelExpansion ? (
                   <Fragment>
                     <Grid item xs={6}>
                       <div>
-                        {props.data.order.map((item,key) => (
+                        {data.order.map((item,key) => (
                           <Chip
                             key={key}
                             label={item.itemName + " - " + item.quantity}
@@ -109,7 +109,7 @@ class OrderSummary extends Component {
                     <Grid item xs={6} align="right" style={style.grandTotal}>
                       <Grid container>
                         <Grid item xs={6} align="left" style={{color:"#555"}} >Amount:</Grid>
-                        <Grid item xs={6}>{props.data.grandTotal}</Grid>
+                        <Grid item xs={6}>{data.grandTotal}</Grid>
                       </Grid>
                     </Grid>
                   </Fragment>
@@ -118,7 +118,7 @@ class OrderSummary extends Component {
                 )}
 
                 <Grid item xs={12} align="right">
-                 {!this.state.panelExpansion? <Chip style={style.chip} label={"Discount: "+props.data.discountPercentage+"%"}/>:""}
+                 {((!this.state.panelExpansion) && data.discount)? <Chip style={style.chip} label={"Discount: "+data.discountPercentage+"%"}/>:""}
                 </Grid>
               </Grid>
             </ExpansionPanelSummary>
@@ -134,24 +134,24 @@ class OrderSummary extends Component {
                     </TableHead>
                     <TableBody>
                     {
-                      props.data.order.map((order,key)=><TableRow key={key}>
+                      data.order.map((order,key)=><TableRow key={key}>
                         <TableCell>{order.itemName}</TableCell>
                         <TableCell>{order.quantity}</TableCell>
                         <TableCell>{order.rate}</TableCell>
                         <TableCell>{order.amount}</TableCell>
                       </TableRow>)
                     }
-                    {props.data.discount?
+                    {data.discount?
                       <TableRow>
                         <TableCell colSpan={1}/>
-                        <TableCell colSpan={2} align="right">Discount of {props.data.discountPercentage}%</TableCell>
-                        <TableCell>{props.data.discountAmount}</TableCell>
+                        <TableCell colSpan={2} align="right">Discount of {data.discountPercentage}%</TableCell>
+                        <TableCell>{data.discountAmount}</TableCell>
                       </TableRow>:""
                     }
                     <TableRow>
                       <TableCell colSpan={1}/>
                       <TableCell colSpan={2} align="right"><b>Grand Total</b></TableCell>
-                      <TableCell><b>{props.data.grandTotal}</b></TableCell>
+                      <TableCell><b>{data.grandTotal}</b></TableCell>
                     </TableRow>
                     </TableBody>
                   </Table>

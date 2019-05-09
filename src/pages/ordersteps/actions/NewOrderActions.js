@@ -10,4 +10,13 @@ const createShop = ()=>{
         })
     }
 }
-export {createShop};
+const sendBill = ()=>{
+    return (dispatch,getState,{getFirestore})=>{
+        const firestore = getFirestore();
+        let bill = getState().order.bill;
+        firestore.collection('orders').add(bill).then(()=>{
+            dispatch({type:"BILL_SENT"})
+        })
+    }
+}
+export {createShop,sendBill};

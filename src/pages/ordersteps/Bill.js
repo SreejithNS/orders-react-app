@@ -35,10 +35,9 @@ class Bill extends Component {
         bill.shopName = shop.name;
         bill.grandTotal = totalAmount;
         bill.date = new Date();
+
+        this.props.setBill(bill);
         return bill;
-        /*
-        date,shopName,items,total,discount!,salesManName,location
-         */
     }
 
     render(){
@@ -103,7 +102,14 @@ class Bill extends Component {
         )
     }
 }
-
+const dispatchToProps = (dispatch)=>{
+    return {
+        setBill:(bill)=>dispatch({
+            type:"SET_BILL",
+            payload:bill
+        })
+    }
+}
 const stateToProps = (state)=>{
     return{
         itemsList:state.order.itemsList,
@@ -113,5 +119,5 @@ const stateToProps = (state)=>{
     }
 }
 
-export default connect(stateToProps)(Bill);
+export default connect(stateToProps,dispatchToProps)(Bill);
 
