@@ -6,7 +6,7 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {Button, Chip} from "@material-ui/core";
 import QuantityDialog from "./QuantityDialog";
-
+import Loading from "./../components/Loading"
 class AddItems extends Component {
     constructor(props){
         super(props);
@@ -113,7 +113,7 @@ class AddItems extends Component {
                         >
                         {item.itemName}
                         </Button>))
-                    :"please wait"}
+                    :<Loading/>}
                 </div>
                 <div style={{padding:"8px"}}>
                 {(this.tempList() != '')?

@@ -4,7 +4,7 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {firestoreConnect} from 'react-redux-firebase';
 import {Store} from "@material-ui/icons"
-
+import Loading from "./../components/Loading"
 class EnterShop extends Component {
     constructor(){
         super();
@@ -49,7 +49,7 @@ class EnterShop extends Component {
                         <MenuItem key={key} onClick={this.selectShop(key)} selected={this.props.shop.name == shop.name}>{this.props.shop.name == shop.name?<Store fontSize="small"/>:""}{shop.name}</MenuItem>
                     )
                 })
-            :""}
+            :<Loading/>}
             </MenuList>
             </Paper>
             </Grid>
