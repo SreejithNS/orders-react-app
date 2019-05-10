@@ -12,7 +12,7 @@ const styles = theme => ({
 function Loading(props) {
   const { classes } = props;
   return (
-    <div style={{width:"100%"}}>
+    <div style={{width:"100%",textAlign:"center"}}>
       <CircularProgress className={classes.progress} />
     </div>
   );
