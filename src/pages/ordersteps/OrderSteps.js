@@ -15,6 +15,7 @@ import EnterShop from "./EnterShop";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {createShop,sendBill} from "./actions/NewOrderActions";
+import OrderSent from "./OrderSent";
 const styles = theme => ({
   root: {
     width: '100%',
@@ -31,21 +32,7 @@ const styles = theme => ({
 function getSteps() {
   return ['Items', 'Shop', 'Bill'];
 }
-function content(step){
-     switch(step){
-         case 0:
-         return <AddItems/>
 
-         case 1:
-         return <EnterShop/>
-
-         case 2:
-         return <Bill/>
-
-         case 3:
-         return "Order Sent"
-     }
- }
 
 class OrderSteps extends React.Component {
     constructor(props){
@@ -59,6 +46,21 @@ class OrderSteps extends React.Component {
     completed:[]
   };
 
+    content(step){
+     switch(step){
+         case 0:
+         return <AddItems/>
+
+         case 1:
+         return <EnterShop />
+
+         case 2:
+         return <Bill/>
+
+         case 3:
+         return <OrderSent/>
+         }
+    }
   handleNext = () => {
     switch(this.state.activeStep){
         case 0:
@@ -84,7 +86,17 @@ class OrderSteps extends React.Component {
                 button2:"Ok"
             }
         })
-        return true
+        return true;
+        }else if(this.props.suggestionsList.length > 0 && (!this.props.shop.name)){this.setState({
+            alert:{
+                open:true,
+                title:"Select from the list",
+                content:"Seems like you forgot to select the shop from the list.Tap on the name to select.To add new shop name just enter it without clashing other names.",
+                button1:"Sure",
+                button2:"Ok"
+            }
+        })
+        return true;
         }else if(!this.props.shop.name && this.props.shopName != ""){
             this.setState({
             alert:{
@@ -148,7 +160,7 @@ class OrderSteps extends React.Component {
                 justify="space-between"
                 alignItems="stretch"
             >
-          {this.state.activeStep === steps.length ? (
+          {this.state.activeStep === steps.length+1 ? (
             <Grid item>
               <Typography variant="body1" className={classes.instructions}>All steps completed</Typography>
               <Button onClick={this.handleReset}>Reset</Button>
@@ -161,7 +173,7 @@ class OrderSteps extends React.Component {
                 alignItems="stretch"
                  >
               <Grid item>
-              {content(activeStep)}
+              {this.content(activeStep)}
             </Grid>
             <Grid item>
                 <Grid container direction="row" style={{marginTop:"6px"}} alignItem="center" justify="space-between">
@@ -176,7 +188,7 @@ class OrderSteps extends React.Component {
                     </Grid>
                     <Grid item>
                         <Button variant="contained" color="primary" style={{marginRight:"6px"}} onClick={this.handleNext}>
-                        {(activeStep === steps.length - 1 )? (<Send fontSize="small"/>) : 'Next'}
+                        {(activeStep === steps.length - 1 )? (<Send fontSize="small"/>) : (activeStep === steps.length)? 'Finish':"Next"}
                         </Button>
                     </Grid>
                 </Grid>
@@ -205,7 +217,8 @@ const stateToProps = (state)=>{
         itemsList:state.order.itemsList,
         shop:state.order.shop,
         shopName:state.order.shopName,
-        bill:state.order.bill
+        bill:state.order.bill,
+        suggestionsList:state.order.suggestionsList
     }
 }
 

@@ -3,7 +3,8 @@ const initialState={
     totalAmount:0,
     shop:{},
     shopName:"",
-    bill:{}
+    bill:{},
+    suggestionsList:[]
 }
 
 const orderReducer = (state={
@@ -26,12 +27,21 @@ const orderReducer = (state={
         state = {...state,shop:action.payload}
         break;
 
+        case 'UNSET_SHOP':
+        state = {...state,shop:{}}
+        break;
+
+
         case 'SET_SHOP_NAME':
         state = {...state,shopName:action.payload}
         break;
 
         case 'SHOP_CREATED':
         state = {...state,shop:action.payload}
+        break;
+
+        case 'SUGGESTIONS_PROCESS':
+        state = {...state,suggestionsList:action.payload}
         break;
 
         case 'SET_BILL':

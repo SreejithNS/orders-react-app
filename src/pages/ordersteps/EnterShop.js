@@ -9,6 +9,7 @@ class EnterShop extends Component {
     constructor(){
         super();
         this.selectShop = id => event =>{
+            if(this.getSuggestionsList(this.props.shopsList)[id].name == this.props.shop.name) return this.props.unsetShop()
             this.props.setShopName(this.getSuggestionsList(this.props.shopsList)[id].name)
             this.props.setShop(this.getSuggestionsList(this.props.shopsList)[id])
         }
@@ -29,6 +30,7 @@ class EnterShop extends Component {
                 })
             })
             suggestionsList.splice(5,suggestionsList.length)
+            this.props.suggestionsList(suggestionsList)
             return suggestionsList;
         }
     render(){
@@ -72,7 +74,9 @@ const mapDispatchToProps = (dispatch)=>{
         setShopName:(name)=>dispatch({
             type:"SET_SHOP_NAME",
             payload:name
-        })
+        }),
+        unsetShop:()=>dispatch({type:"UNSET_SHOP"}),
+        suggestionsList:(list)=>dispatch({type:"SUGGESTIONS_PROCESS",payload:list})
     }
 }
 
