@@ -2,7 +2,8 @@ import {createStore, applyMiddleware, combineReducers} from 'redux';
 import logger from 'redux-logger';
 import user from './reducers/userReducer';
 import ui from './reducers/uiReducer';
-import order from './reducers/orderReducer'
+import order from './reducers/orderReducer';
+import settings from './reducers/settingsReducer';
 import { reduxFirestore,getFirestore } from 'redux-firestore';
 import { reactReduxFirebase,getFirebase } from 'react-redux-firebase';
 import thunk from "redux-thunk";
@@ -15,6 +16,7 @@ const store = createStore(combineReducers({
         user,
         ui,
         order,
+        settings,
         firestore:firestoreReducer,
         firebase:firebaseReducer
     }),{},

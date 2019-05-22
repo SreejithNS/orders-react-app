@@ -6,8 +6,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {withStyles} from '@material-ui/core/styles';
 import LoginButton from './components/LoginButton'
-
-
+import { Paper } from '@material-ui/core';
+import Profile from './settings/Profile';
+import Pricelist from './settings/Pricelist';
 var css = {
     root: {
       flexGrow: 1,
@@ -19,6 +20,10 @@ var css = {
       marginLeft:-12,
       marginRight: 20,
     },
+    content:{
+        padding:8,
+        height:90
+    }
 };
 
 
@@ -27,7 +32,7 @@ class Settings extends Component{
         state = {
             pageTitle:'Settings'
         }
-    
+
     render(){
         const {props,state} = this
         return(
@@ -43,6 +48,8 @@ class Settings extends Component{
                     <LoginButton/>
                     </Toolbar>
                 </AppBar>
+                <Profile/>
+                <Pricelist/>
             </div>
         )
     }
