@@ -20,6 +20,7 @@ class Bill extends Component {
         const {itemsList,user,shop,totalAmount} = this.props;
         //return console.log(itemsList,user,shop);
         const bill = {};
+        const {pricelistCode,location} = this.props;
         var order = itemsList;
         order.forEach(item=>{
             item.quantity = parseInt(item.quantity);
@@ -27,10 +28,10 @@ class Bill extends Component {
         })
         bill.order = order;
         bill.discount= false;
-        bill.location = "VANIYAMBADI";
+        bill.location = location;
         bill.orderedBy = user.uid;
         bill.ordererName = user.name;
-        bill.priceListCode = "MAY2019";
+        bill.priceListCode = pricelistCode;
         bill.shop = shop.id;
         bill.shopName = shop.name;
         bill.grandTotal = totalAmount;
@@ -115,7 +116,10 @@ const stateToProps = (state)=>{
         itemsList:state.order.itemsList,
         shop:state.order.shop,
         user:state.user.user,
-        totalAmount:state.order.totalAmount
+        totalAmount:state.order.totalAmount,
+        location:state.settings.location,
+        pricelistCode:state.settings.pricelist,
+
     }
 }
 

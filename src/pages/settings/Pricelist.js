@@ -82,7 +82,7 @@ const mapStateToProps = (state)=>{
     return {
         pricelists:state.firestore.data.pricelists,
         pricelistCode:state.settings.pricelist,
-        location:state.settings.location
+        location:state.settings.location,
     }
 }
 const mapDispatchToProps = (dispatch)=>{

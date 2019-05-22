@@ -80,6 +80,6 @@ const mapDispatchToProps = (dispatch)=>{
     }
 }
 
-export default compose(connect(mapStateToProps,mapDispatchToProps),firestoreConnect([
-    { collection: 'shops', queryParams: [ 'orderByChild=name' ]}
+export default compose(connect(mapStateToProps,mapDispatchToProps),firestoreConnect(props=>[
+    { collection: 'shops', queryParams: [ 'orderByChild=location', `equalTo=${props.location}` ]}
 ]))(EnterShop)

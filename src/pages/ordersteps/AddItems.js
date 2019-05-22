@@ -23,8 +23,9 @@ class AddItems extends Component {
         var parse={};
         var listArray=[];
         if(!props.pricelists) return false
-        const list = props.pricelists.filter(pricelist=>pricelist.id=="MAY2019")[0]["TPT"];
-
+        const {pricelistCode,location} = this.props;
+        const list = props.pricelists.filter(pricelist=>pricelist.id==pricelistCode)[0][location];
+        if(!list.map)return listArray
         list.map(card=>{
             parse[card.brand] = [];
             card.itemslist.map(item=>parse[card.brand].push(item))
@@ -145,7 +146,9 @@ const stateToProps = (state) =>{
     return{
         pricelists:state.firestore.ordered.pricelists,
         itemsList:state.order.itemsList,
-        totalAmount:state.order.totalAmount
+        location:state.settings.location,
+        totalAmount:state.order.totalAmount,
+        pricelistCode:state.settings.pricelist,
     }
 }
 const dispatchToProps = (dispatch)=>{
