@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import {deleteOrder} from './actions/orderActions';
 import {
   Button,
   Grid,
@@ -10,14 +11,18 @@ import {
   TableRow,
   TableBody,
   TableCell,
-  ExpansionPanelSummary
+  ExpansionPanelSummary,
+  //Fab,
+  IconButton
 } from "@material-ui/core";
 import {
-  AccountCircle,
+  //AccountCircle,
   Store,
   Timer,
-  Place
+  Place,
+  Delete
 } from "@material-ui/icons";
+import {connect} from "react-redux";
 import moment from "moment";
 
 const style = {
@@ -66,10 +71,6 @@ class OrderSummary extends Component {
             <ExpansionPanelSummary style={style.expansionPanelSummary}>
               <Grid container style={style.zeroPadding}>
                 <Grid item xs={6}>
-                  <Button style={style.button} size="small" disabled>
-                    <AccountCircle fontSize="small" />
-                    {data.ordererName.split(' ')[0]}
-                  </Button><br/>
                   <Button
                     style={{ ...style.button}}
                     size="small"
@@ -77,21 +78,24 @@ class OrderSummary extends Component {
                   >
                     <Store fontSize="small" />
                     {data.shopName}
-                  </Button>
-                </Grid>
-                <Grid item xs={6} align="right">
-
+                  </Button><br/>
                   <Button
                     style={style.button}
                     size="small"
                     disabled
                   >
                     {data.location}<Place fontSize="small" />
-                  </Button><br/>
-                  <Button style={{...style.button}} size="small" disabled>
+                  </Button>
+                </Grid>
+                <Grid item xs={6} align="right">
+                <Button aria-label="Delete" onClick={()=>this.props.deleteOrder(data.id)} size="small">
+                    <Delete fontSize="small" /> Delete
+                </Button>
+                <Button style={{...style.button}} size="small" disabled>
                     <Timer fontSize="small" />
                     {moment(data.date.toDate()).format('MMMM Do YYYY')}
                   </Button>
+
                 </Grid>
                 {!this.state.panelExpansion ? (
                   <Fragment>
@@ -106,19 +110,22 @@ class OrderSummary extends Component {
                         ))}
                       </div>
                     </Grid>
+
                     <Grid item container justify="flex-end" alignItems="flex-end" xs={6} >
                         <Grid item container justify="flex-end" alignItems="flex-center" style={style.grandTotal}>
-                        <Grid item style={{color:"#555",textAlign:"right"}} >Amount:</Grid>
-                        <Grid item >{data.grandTotal}</Grid>
+                            <Grid item style={{color:"#555",textAlign:"right"}} >Amount:</Grid>
+                            <Grid item >{data.grandTotal}</Grid>
                         </Grid>
+                         {((!this.state.panelExpansion) && data.discount)? <Chip style={style.chip} label={"Discount: "+data.discountPercentage+"%"}/>:""}
                     </Grid>
+
                   </Fragment>
                 ) : (
                   ""
                 )}
 
                 <Grid item xs={12} align="right">
-                 {((!this.state.panelExpansion) && data.discount)? <Chip style={style.chip} label={"Discount: "+data.discountPercentage+"%"}/>:""}
+
                 </Grid>
               </Grid>
             </ExpansionPanelSummary>
@@ -169,5 +176,16 @@ class OrderSummary extends Component {
     );
   }
 }
+const mapDispatchToProps = (dispatch)=>{
+    return {
+        deleteOrder:(id)=>{dispatch(deleteOrder(id))}
+    }
+}
+export default connect(null,mapDispatchToProps)(OrderSummary);
 
-export default OrderSummary;
+/*
+                <Button style={style.button} size="small" disabled>
+                    <AccountCircle fontSize="small" />
+                    {data.ordererName.split(' ')[0]}
+                </Button>
+*/

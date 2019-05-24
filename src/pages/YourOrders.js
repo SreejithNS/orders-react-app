@@ -77,6 +77,8 @@ const queryDefiner =(props)=>{
         {
             collection:"orders",
             queryParams: [ 'limitToFirst=10' ],
+            limit:10,
+            orderBy:['date','desc'],
             where: [
                 ['orderedBy', '==', props.user.user.uid]
             ]

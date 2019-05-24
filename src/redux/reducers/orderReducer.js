@@ -19,6 +19,9 @@ const orderReducer = (state={
         state = {...state,itemsList:action.payload }
         break;
 
+        case 'ORDER_DELETED':
+        break;
+
         case 'MODIFY_ORDER':
         state = {...state,...action.payload}
         break;
