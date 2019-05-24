@@ -1,9 +1,11 @@
-import React, {Component} from "react";
+import React, {Component,Fragment} from "react";
 import {Table,TableBody,TableCell,TableHead,TableRow, Paper, Grid, Button} from "@material-ui/core"
 //import {compose} from "redux";
 import {connect} from "react-redux";
 import {Store,AccountCircle,Timer} from '@material-ui/icons';
+import DiscountDialog from "./DiscountDialog";
 import moment from "moment";
+
 const buttonProps = {
     size:"small",
     disabled:true,
@@ -12,9 +14,28 @@ const buttonProps = {
     }
 }
 
-
-
 class Bill extends Component {
+    state={
+        dialogOpen:false,
+        discountPercentage:0
+    }
+    toggle(){
+        this.setState({
+            dialogOpen:!this.state.dialogOpen
+        })
+    }
+
+    discount(){
+        if(this.state.discountPercentage===0) return false;
+        const {totalAmount} = this.props;
+        var amnt = Math.round(totalAmount*100)/100;
+        const {discountPercentage} = this.state;
+        var discountAmount = (amnt*(discountPercentage/100))
+        const grandTotal = amnt-discountAmount;
+        return {
+            discountAmount,discountPercentage,grandTotal
+        }
+    }
 
     billData(){
         const {itemsList,user,shop,totalAmount} = this.props;
@@ -27,14 +48,20 @@ class Bill extends Component {
             item.rate = parseFloat(item.rate);
         })
         bill.order = order;
-        bill.discount= false;
+        const discount = this.discount();
+        bill.discount= Boolean(discount);
+        if(bill.discount){
+            bill.discountPercentage = parseInt(this.state.discountPercentage);
+            bill.discountAmount = discount.discountAmount;
+        }
         bill.location = location;
         bill.orderedBy = user.uid;
         bill.ordererName = user.name;
         bill.priceListCode = pricelistCode;
         bill.shop = shop.id;
         bill.shopName = shop.name;
-        bill.grandTotal = totalAmount;
+        bill.grandTotal = (discount.grandTotal) || totalAmount;
+        bill.totalAmount = totalAmount;
         bill.date = new Date();
 
         this.props.setBill(bill);
@@ -44,6 +71,7 @@ class Bill extends Component {
     render(){
         const data = this.billData();
         return(
+            <Fragment>
             <Paper style={{paddingTop:"6px",margin:"0px 6px"}}>
                 <Grid
                     container
@@ -85,6 +113,13 @@ class Bill extends Component {
                             <TableCell>{order.amount}</TableCell>
                         </TableRow>)
                         }
+                        {data.totalAmount!==data.grandTotal?
+                            <TableRow>
+                                <TableCell colSpan={1}/>
+                                <TableCell colSpan={2} align="right">Total Amount</TableCell>
+                                <TableCell>{data.totalAmount}</TableCell>
+                            </TableRow>:""
+                        }
                         {data.discount?
                         <TableRow>
                             <TableCell colSpan={1}/>
@@ -100,6 +135,18 @@ class Bill extends Component {
                         </TableBody>
                 </Table>
             </Paper>
+            <Paper style={{margin:"6px 8px",padding:"6px"}}>
+                <Button size="small" onClick={this.toggle.bind(this)} variant="outlined">{data.discount? "Change":"Provide"} Discount %</Button>
+            </Paper>
+            <DiscountDialog
+                    setDiscount={(perc)=>this.setState({discountPercentage:perc,discount:true})}
+                    open={this.state.dialogOpen}
+                    toggle={this.toggle.bind(this)}
+                    shopName={this.props.shop.name}
+                    discount={data.discount}
+                    totalAmount={data.totalAmount}
+                />
+            </Fragment>
         )
     }
 }

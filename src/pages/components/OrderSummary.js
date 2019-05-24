@@ -141,11 +141,18 @@ class OrderSummary extends Component {
                         <TableCell>{order.amount}</TableCell>
                       </TableRow>)
                     }
+                    {data.totalAmount!==data.grandTotal?
+                      <TableRow>
+                        <TableCell colSpan={1}/>
+                        <TableCell colSpan={2} align="right">Total Amount</TableCell>
+                        <TableCell>{data.totalAmount}</TableCell>
+                      </TableRow>:""
+                    }
                     {data.discount?
                       <TableRow>
                         <TableCell colSpan={1}/>
-                        <TableCell colSpan={2} align="right">Discount of {data.discountPercentage}%</TableCell>
-                        <TableCell>{data.discountAmount}</TableCell>
+                        <TableCell colSpan={2} align="right">Discount of {data.discountPercentage}% :</TableCell>
+                        <TableCell>-{data.discountAmount}</TableCell>
                       </TableRow>:""
                     }
                     <TableRow>
