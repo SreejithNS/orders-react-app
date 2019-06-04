@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import {Typography} from '@material-ui/core'
+import {Typography, Paper} from '@material-ui/core'
 import {firestoreConnect} from 'react-redux-firebase';
 import {compose} from "redux";
 import {connect} from "react-redux";
@@ -20,39 +20,21 @@ class AddItems extends Component {
         })
     }
     pricelistParser(props){
-        var parse={};
-        var listArray=[];
+        var groupBy = function(xs, key) {return xs.reduce(function(rv, x) {(rv[x[key]] = rv[x[key]] || []).push(x);return rv;}, {});};
         if(!props.pricelists) return false
-        const {pricelistCode,location} = this.props;
-        const list = props.pricelists.filter(pricelist=>pricelist.id==pricelistCode)[0][location];
-        if(!list.map)return listArray
-        list.map(card=>{
-            parse[card.brand] = [];
-            card.itemslist.map(item=>parse[card.brand].push(item))
-        })
-
-        for(var brand in parse){
-            var array1=[];var array2 =[];var array3=[];
-            parse[brand].map(item=>{
-                if(((item.itemCode.replace(/\D/g,"").length) == 1) && (!item.itemCode.includes("CP"))){
-
-                    array1.push(item)
-                    parse[brand].filter(e=>e!=item)
-                }else if(item.itemCode.includes("CP")){
-
-                    array2.push(item)
-                    parse[brand].filter(e=>e!=item)
-                }else{
-
-                    array3.push(item)
-                    parse[brand].filter(e=>e!=item)
+        const {pricelists,pricelistCode} = props;
+        var parsedData = []
+        for(var location in pricelists){
+            for(var brand in pricelists[location]){
+                for(var itemGroup in pricelists[location][brand]){
+                    pricelists[location][brand][itemGroup].map(item=>parsedData.push(item))
                 }
-            })
-            listArray.push(array1);
-            listArray.push(array2)
-            listArray.push(array3)
+            }
         }
-        return listArray;
+        parsedData = groupBy(parsedData,"itemGroup");
+        var itemsGroup = [];
+        for(var group in parsedData) itemsGroup.push(group);
+        return {parsedData,itemsGroup};
     }
 
     selectItem(event){
@@ -98,12 +80,17 @@ class AddItems extends Component {
     }
     render(){
         const {props,state} = this;
+        const data = this.pricelistParser(props);
         return(
             <Fragment>
-                <div style={{padding:"8px"}}>
-                {(this.pricelistParser(props))?
-                    this.pricelistParser(props).map(box=>box.map(item=>
-                    <Button
+                <Paper style={{margin:"5px",padding:"12px"}} elevation={0}>
+                {(data)?
+                    data.itemsGroup.map((groupName,key)=>
+                    <Fragment  key={key}>
+                    <Typography variant="body1" color="textPrimary">{groupName}</Typography>
+                    {data.parsedData[groupName].map((item,key)=>
+                        <Button
+                        key={key}
                         variant="outlined"
                         code={item.itemCode}
                         itemname={item.itemName}
@@ -113,10 +100,13 @@ class AddItems extends Component {
                         onClick={(e)=>this.selectItem(e)}
                         >
                         {item.itemName}
-                        </Button>))
+                        </Button>
+                    )}<br/>
+                    </Fragment>
+                    )
                     :<Loading/>}
-                </div>
-                <div style={{padding:"8px"}}>
+                </Paper>
+            <Paper style={{margin:"6px 8px",padding:"12px"}}>
                 {(this.tempList() != '')?
                     <Fragment>
                     <Typography
@@ -129,8 +119,7 @@ class AddItems extends Component {
                     {this.tempList()}
                     </Fragment>
                 :""}
-                </div>
-
+                </Paper>
                 <QuantityDialog
                     addItem={this.addItem.bind(this)}
                     open={this.state.dialogOpen}
@@ -144,7 +133,7 @@ class AddItems extends Component {
 
 const stateToProps = (state) =>{
     return{
-        pricelists:state.firestore.ordered.pricelists,
+        pricelists:state.firestore.data.plist,
         itemsList:state.order.itemsList,
         location:state.settings.location,
         totalAmount:state.order.totalAmount,
@@ -165,9 +154,11 @@ const dispatchToProps = (dispatch)=>{
 }
 export default  compose(
     connect(stateToProps,dispatchToProps),
-    firestoreConnect([
+    firestoreConnect(props=>[
         {
-            collection:"pricelists"
+            collection:"pricelists",
+            doc:props.pricelistCode,
+            storeAs:"plist"
         }
     ])
     )(AddItems)

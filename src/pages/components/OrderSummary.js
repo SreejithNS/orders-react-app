@@ -112,7 +112,7 @@ class OrderSummary extends Component {
                     </Grid>
 
                     <Grid item container justify="flex-end" alignItems="flex-end" xs={6} >
-                        <Grid item container justify="flex-end" alignItems="flex-center" style={style.grandTotal}>
+                        <Grid item container justify="flex-end" alignItems="center" style={style.grandTotal}>
                             <Grid item style={{color:"#555",textAlign:"right"}} >Amount:</Grid>
                             <Grid item >{data.grandTotal}</Grid>
                         </Grid>
@@ -152,20 +152,20 @@ class OrderSummary extends Component {
                       <TableRow>
                         <TableCell colSpan={1}/>
                         <TableCell colSpan={2} align="right">Total Amount</TableCell>
-                        <TableCell>{data.totalAmount}</TableCell>
+                        <TableCell>{Math.floor(data.totalAmount*100)/100}</TableCell>
                       </TableRow>:""
                     }
                     {data.discount?
                       <TableRow>
                         <TableCell colSpan={1}/>
                         <TableCell colSpan={2} align="right">Discount of {data.discountPercentage}% :</TableCell>
-                        <TableCell>-{data.discountAmount}</TableCell>
+                        <TableCell>-{Math.floor(data.discountAmount*100)/100}</TableCell>
                       </TableRow>:""
                     }
                     <TableRow>
                       <TableCell colSpan={1}/>
                       <TableCell colSpan={2} align="right"><b>Grand Total</b></TableCell>
-                      <TableCell><b>{data.grandTotal}</b></TableCell>
+                      <TableCell><b>{Math.floor(data.grandTotal*100)/100}</b></TableCell>
                     </TableRow>
                     </TableBody>
                   </Table>

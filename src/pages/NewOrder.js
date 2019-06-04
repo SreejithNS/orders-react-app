@@ -9,6 +9,7 @@ import LoginButton from './components/LoginButton';
 import OrderSteps from './ordersteps/OrderSteps';
 import {compose} from "redux";
 import {connect} from "react-redux";
+import { Paper } from '@material-ui/core';
 
 var css = {
     root: {
@@ -50,9 +51,9 @@ class NewOrder extends Component{
                     <LoginButton/>
                     </Toolbar>
                 </AppBar>
-
+                <Paper elevation={0} style={{margin:"0px",padding:"3px"}}>
                 <OrderSteps />
-
+                </Paper>
             </div>
         )
     }

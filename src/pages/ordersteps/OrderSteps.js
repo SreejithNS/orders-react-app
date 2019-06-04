@@ -176,7 +176,7 @@ class OrderSteps extends React.Component {
               {this.content(activeStep)}
             </Grid>
             <Grid item>
-                <Grid container direction="row" style={{marginTop:"6px"}} alignItem="center" justify="space-between">
+                <Grid container direction="row" style={{marginTop:"6px"}} justify="space-between">
                     <Grid item>
                         <Button
                             disabled={activeStep === 0}

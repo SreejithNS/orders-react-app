@@ -26,13 +26,9 @@ var css = {
 };
 
 class YourOrders extends Component{
-
-
         state = {
             pageTitle:'Your Orders'
         }
-
-
     render(){
         const {state,props} = this;
         return(

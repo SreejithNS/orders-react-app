@@ -69,7 +69,7 @@ class Pricelist extends Component {
                     />
                     }
                 >
-                {Array.isArray(this.getLocations())?this.getLocations().map(place=><MenuItem value={place}>{place}</MenuItem>):this.getLocations()}
+                {Array.isArray(this.getLocations())?this.getLocations().map((place,key)=><MenuItem value={place} key={key}>{place}</MenuItem>):this.getLocations()}
                 </Select>
                 </FormControl>
                 </form>

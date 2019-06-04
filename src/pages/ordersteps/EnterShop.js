@@ -62,7 +62,8 @@ const mapStateToProps = (state)=>{
     return {
         shopsList:state.firestore.ordered.shops,
         shop:state.order.shop,
-        shopName:state.order.shopName
+        shopName:state.order.shopName,
+        settings:state.settings
     }
 }
 const mapDispatchToProps = (dispatch)=>{
@@ -81,5 +82,5 @@ const mapDispatchToProps = (dispatch)=>{
 }
 
 export default compose(connect(mapStateToProps,mapDispatchToProps),firestoreConnect(props=>[
-    { collection: 'shops', queryParams: [ 'orderByChild=location', `equalTo=${props.location}` ]}
+    { collection: 'shops', where: [ 'location',"==", props.settings.location]}
 ]))(EnterShop)
