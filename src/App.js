@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import {List,ListItem,ListItemIcon,ListItemText,ListItemAvatar,Divider,SwipeableDrawer,Avatar} from '@material-ui/core';
 import {Check} from '@material-ui/icons';
 import {Settings as SettingsIcon} from '@material-ui/icons';
-import {signIn,signOut} from "./pages/components/actions/authActions"
-
+import {signIn,signOut} from "./pages/components/actions/authActions";
 import { Switch, Route, Link } from 'react-router-dom';
 import Settings from './pages/Settings';
 import NewOrder from './pages/NewOrder';
 import YourOrders from './pages/YourOrders';
-
-import {connect} from 'react-redux'
+import store from './redux/store';
+import {connect} from 'react-redux';
 
 class App extends Component {
-
     sideMenuOptions = [
       {
         name:'Your orders',
@@ -30,7 +28,6 @@ class App extends Component {
         icon:<SettingsIcon />
       }
     ]
-
   render() {
     const {props,sideMenuOptions} = this;
     return (
@@ -78,6 +75,17 @@ class App extends Component {
     );
   }
 }
+// SETTINGS UPDATE LISTENER
+store.firestore.collection('admin').doc('appSettings').onSnapshot((doc)=>{
+    const data = doc.data();
+    return store.dispatch({
+        type:'SET_SETTINGS',
+        payload:{
+            ...data
+        }
+    })
+})
+
 const mapStateToProps = (state)=>{
   return {
     sideMenu:state.ui.sideMenu,
