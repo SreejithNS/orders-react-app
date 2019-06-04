@@ -15,7 +15,7 @@ store.subscribe(()=>{
 store.firebaseAuthIsReady.then(()=>{
     firebase.auth().onAuthStateChanged(user => {
         if(user){
-            document.getElementById('loading-log').innerText="Welcome back "+user.displayName;
+            document.getElementById('loading-log').innerText="Welcome "+user.displayName;
             store.firestore.collection('users').doc(user.uid).get().then(doc=>{
                 if(!doc.exists){
                     return document.getElementById('loading-log').innerText="YOUR ACCOUNT IS BEING CREATED OR MAY BE LACKING VERIFICATION";
