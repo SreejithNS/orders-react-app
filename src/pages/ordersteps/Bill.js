@@ -52,7 +52,7 @@ class Bill extends Component {
         bill.discount= Boolean(discount);
         if(bill.discount){
             bill.discountPercentage = parseInt(this.state.discountPercentage);
-            bill.discountAmount = discount.discountAmount;
+            bill.discountAmount = Math.floor(discount.discountAmount*100)/100;
         }
         bill.location = location;
         bill.orderedBy = user.uid;
@@ -60,8 +60,8 @@ class Bill extends Component {
         bill.priceListCode = pricelistCode;
         bill.shop = shop.id;
         bill.shopName = shop.name;
-        bill.grandTotal = (discount.grandTotal) || totalAmount;
-        bill.totalAmount = totalAmount;
+        bill.grandTotal = (Math.floor(discount.grandTotal*100)/100) || Math.floor(totalAmount*100)/100;
+        bill.totalAmount = Math.floor(totalAmount*100)/100;
         bill.date = new Date();
 
         this.props.setBill(bill);
