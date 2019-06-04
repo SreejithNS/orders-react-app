@@ -1,7 +1,6 @@
 const signIn = () =>{
     return (dispatch,getState,{getFirebase,getFirestore})=>{
         const firebase = getFirebase();
-        const firestore = getFirestore();
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function(result) {
             dispatch({

@@ -9,6 +9,8 @@ const settingsReducer = (state={
         case 'SETTINGS_SET_LOCATION':
         state = {...state,location:action.payload}
         break;
+        default:
+        break;
     }
     return state
 }

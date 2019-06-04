@@ -35,9 +35,6 @@ function getSteps() {
 
 
 class OrderSteps extends React.Component {
-    constructor(props){
-        super(props)
-    }
   state = {
     activeStep: 0,
     alert:{
@@ -59,12 +56,15 @@ class OrderSteps extends React.Component {
 
          case 3:
          return <OrderSent/>
+
+         default:
+         return;
          }
     }
   handleNext = () => {
     switch(this.state.activeStep){
         case 0:
-        if(this.props.itemsList.length == 0){ this.setState({
+        if(this.props.itemsList.length === 0){ this.setState({
             alert:{
                 open:true,
                 title:"No Empty orders",
@@ -77,7 +77,7 @@ class OrderSteps extends React.Component {
         }
         break;
         case 1:
-        if(this.props.shopName == ""){ this.setState({
+        if(this.props.shopName === ""){ this.setState({
             alert:{
                 open:true,
                 title:"No Shop name!",
@@ -97,7 +97,7 @@ class OrderSteps extends React.Component {
             }
         })
         return true;
-        }else if(!this.props.shop.name && this.props.shopName != ""){
+        }else if(!this.props.shop.name && this.props.shopName !== ""){
             this.setState({
             alert:{
                 open:true,
@@ -115,6 +115,8 @@ class OrderSteps extends React.Component {
         break;
         case 2:
         this.props.sendBill();
+        break;
+        default:
         break;
     }
     var completed=this.state.completed

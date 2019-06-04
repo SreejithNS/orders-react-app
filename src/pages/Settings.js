@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {withStyles} from '@material-ui/core/styles';
 import LoginButton from './components/LoginButton'
-import { Paper } from '@material-ui/core';
+//import { Paper } from '@material-ui/core';
 import Profile from './settings/Profile';
 import Pricelist from './settings/Pricelist';
 var css = {

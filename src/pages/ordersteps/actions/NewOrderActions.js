@@ -5,7 +5,7 @@ const createShop = ()=>{
         let location = getState().settings.location;
         let createdBy = getState().user.user.uid;
         let createdUser = getState().user.user.name;
-        let shop = {name,location,createdBy};
+        let shop = {name,location,createdBy,createdUser};
         firestore.collection('shops').add(shop).then(()=>{
             dispatch({type:"SHOP_CREATED",payload:shop})
         })

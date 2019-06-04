@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import ReactDOM from 'react-dom';
-import { signOut, signIn } from "../components/actions/authActions";
+//import { signOut, signIn } from "../components/actions/authActions";
 import { connect } from "react-redux";
 import {  Paper, Typography, withStyles, Select, OutlinedInput, MenuItem, InputLabel, FormControl } from "@material-ui/core";
 import { compose } from "redux";

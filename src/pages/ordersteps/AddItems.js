@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {withStyles} from '@material-ui/core/styles';
+//import {withStyles} from '@material-ui/core/styles';
 import {Typography, Paper} from '@material-ui/core'
 import {firestoreConnect} from 'react-redux-firebase';
 import {compose} from "redux";
@@ -8,9 +8,6 @@ import {Button, Chip} from "@material-ui/core";
 import QuantityDialog from "./QuantityDialog";
 import Loading from "./../components/Loading"
 class AddItems extends Component {
-    constructor(props){
-        super(props);
-    }
     state={
         dialogOpen:false
     }
@@ -22,11 +19,12 @@ class AddItems extends Component {
     pricelistParser(props){
         var groupBy = function(xs, key) {return xs.reduce(function(rv, x) {(rv[x[key]] = rv[x[key]] || []).push(x);return rv;}, {});};
         if(!props.pricelists) return false
-        const {pricelists,pricelistCode} = props;
+        const {pricelists} = props;
         var parsedData = []
         for(var location in pricelists){
             for(var brand in pricelists[location]){
                 for(var itemGroup in pricelists[location][brand]){
+                    // eslint-disable-next-line
                     pricelists[location][brand][itemGroup].map(item=>parsedData.push(item))
                 }
             }
@@ -60,7 +58,7 @@ class AddItems extends Component {
         })
     }
     tempList(){
-        if(this.props.itemsList.length == 0) return ''
+        if(this.props.itemsList.length === 0) return ''
         return this.props.itemsList.map((item,key)=>
             <Chip
                 label={item.itemName+" - "+item.amount}
@@ -79,7 +77,7 @@ class AddItems extends Component {
         this.props.modifyOrder({itemsList:newList,totalAmount});
     }
     render(){
-        const {props,state} = this;
+        const {props} = this;
         const data = this.pricelistParser(props);
         return(
             <Fragment>
@@ -107,7 +105,7 @@ class AddItems extends Component {
                     :<Loading/>}
                 </Paper>
             <Paper style={{margin:"6px 8px",padding:"12px"}}>
-                {(this.tempList() != '')?
+                {(this.tempList() !== '')?
                     <Fragment>
                     <Typography
                         variant="body2"

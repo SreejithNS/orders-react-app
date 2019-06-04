@@ -9,7 +9,7 @@ class EnterShop extends Component {
     constructor(){
         super();
         this.selectShop = id => event =>{
-            if(this.getSuggestionsList(this.props.shopsList)[id].name == this.props.shop.name) return this.props.unsetShop()
+            if(this.getSuggestionsList(this.props.shopsList)[id].name === this.props.shop.name) return this.props.unsetShop()
             this.props.setShopName(this.getSuggestionsList(this.props.shopsList)[id].name)
             this.props.setShop(this.getSuggestionsList(this.props.shopsList)[id])
         }
@@ -17,14 +17,16 @@ class EnterShop extends Component {
         shopNameInput = event=> this.props.setShopName(event.target.value.toUpperCase())
 
         getSuggestionsList(shopsList){
-            if(shopsList=="" || shopsList == null || shopsList == undefined) return false
+            if(shopsList==="" || shopsList === null || shopsList === undefined) return false
             const value = this.props.shopName.toUpperCase();
             var suggestionsList = []
+            // eslint-disable-next-line
             shopsList.map((shop,key)=>{
                 var name = shop.name.toUpperCase().split('');
                 var inp = value.split('');
                 name.splice(inp.length,name.length-inp.length)
-                if(name.join('')==inp.join('')) suggestionsList.push({
+                // eslint-disable-next-line
+                if(name.join('')===inp.join('')) return suggestionsList.push({
                     name:shop.name,
                     id:shop.id
                 })
@@ -46,7 +48,7 @@ class EnterShop extends Component {
             {(shopsList)?
                 this.getSuggestionsList(shopsList).map((shop,key)=>{
                     return(
-                        <MenuItem key={key} onClick={this.selectShop(key)} selected={this.props.shop.name == shop.name}>{this.props.shop.name == shop.name?<Store fontSize="small"/>:""}{shop.name}</MenuItem>
+                        <MenuItem key={key} onClick={this.selectShop(key)} selected={this.props.shop.name === shop.name}>{this.props.shop.name === shop.name?<Store fontSize="small"/>:""}{shop.name}</MenuItem>
                     )
                 })
             :<Loading/>}
