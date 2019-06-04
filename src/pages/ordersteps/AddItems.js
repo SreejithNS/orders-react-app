@@ -104,7 +104,7 @@ class AddItems extends Component {
                     )
                     :<Loading/>}
                 </Paper>
-            <Paper style={{margin:"6px 8px",padding:"12px"}}>
+            <Paper style={{margin:"6px 8px",padding:"12px",transition:"1s"}} elevation={(this.tempList()!=='')?4:0}>
                 {(this.tempList() !== '')?
                     <Fragment>
                     <Typography
