@@ -7,8 +7,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {withStyles} from '@material-ui/core/styles';
 import LoginButton from './components/LoginButton';
 import OrderSteps from './ordersteps/OrderSteps';
-import {compose} from "redux";
-import {connect} from "react-redux";
 import { Paper } from '@material-ui/core';
 
 var css = {
@@ -59,10 +57,5 @@ class NewOrder extends Component{
     }
 }
 
-const stateToProps = (state) =>{
-    return{
-        pricelists:state.firestore.ordered.pricelists
-    }
-}
 
-export default compose(connect(stateToProps),withStyles(css))(NewOrder)
+export default withStyles(css)(NewOrder)

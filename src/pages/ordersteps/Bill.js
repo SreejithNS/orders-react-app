@@ -37,7 +37,7 @@ class Bill extends Component {
         }
     }
 
-    billData(){
+    billData=()=>{
         const {itemsList,user,shop,totalAmount} = this.props;
         //return console.log(itemsList,user,shop);
         const bill = {};
@@ -63,7 +63,11 @@ class Bill extends Component {
         bill.grandTotal = (Math.floor(discount.grandTotal*100)/100) || Math.floor(totalAmount*100)/100;
         bill.totalAmount = Math.floor(totalAmount*100)/100;
         bill.date = new Date();
-
+        bill.onSale = false;
+        if(this.props.settings.onSale) {
+            bill.onSale = true;
+            bill.saleId = this.props.settings.saleId;
+        }
         this.props.setBill(bill);
         return bill;
     }
@@ -165,8 +169,8 @@ const stateToProps = (state)=>{
         user:state.user.user,
         totalAmount:state.order.totalAmount,
         location:state.settings.location,
+        settings:state.settings,
         pricelistCode:state.settings.pricelist,
-
     }
 }
 

@@ -6,9 +6,11 @@ import {signIn,signOut} from "./pages/components/actions/authActions";
 import { Switch, Route, Link } from 'react-router-dom';
 import Settings from './pages/Settings';
 import NewOrder from './pages/NewOrder';
+import Sale from './pages/Sale';
 import YourOrders from './pages/YourOrders';
 import store from './redux/store';
 import {connect} from 'react-redux';
+
 
 class App extends Component {
     sideMenuOptions = [
@@ -28,6 +30,7 @@ class App extends Component {
         icon:<SettingsIcon />
       }
     ]
+    
   render() {
     const {props,sideMenuOptions} = this;
     return (
@@ -54,12 +57,19 @@ class App extends Component {
             </ListItem>
             </Link>
           ))}
+          {props.settings.onSale?
+          <Link to={`/sale`} style={{textDecoration:'none'}} onClick={()=>props.closeSideMenu()}>
+            <ListItem button>
+              <ListItemIcon><Check/></ListItemIcon>
+              <ListItemText primary="Sale" />
+            </ListItem>
+            </Link>:""
+          }
           </List>
           <Divider/>
         </SwipeableDrawer>
 
         <Switch>
-
             <Route exact path="/">
               <YourOrders toggleSideMenu={()=> {props.toggleSideMenu()}}/>
             </Route>
@@ -69,13 +79,16 @@ class App extends Component {
             <Route path="/neworder">
              <NewOrder toggleSideMenu={()=> {props.toggleSideMenu()}}/>
             </Route>
-
+            <Route path="/sale/">
+              <Sale toggleSideMenu={()=>{props.toggleSideMenu()}} />
+            </Route>
           </Switch>
       </div>
     );
   }
 }
-// SETTINGS UPDATE LISTENER
+
+// GLOBAL SETTINGS UPDATE LISTENER
 store.firestore.collection('admin').doc('appSettings').onSnapshot((doc)=>{
     const data = doc.data();
     return store.dispatch({
@@ -86,10 +99,14 @@ store.firestore.collection('admin').doc('appSettings').onSnapshot((doc)=>{
     })
 })
 
+
+      
 const mapStateToProps = (state)=>{
   return {
     sideMenu:state.ui.sideMenu,
-    user:state.user
+    user:state.user,
+    settings:state.settings,
+    sale:state.firestore.data.sale
   }
 }
 const mapDispatchToProps = (dispatch)=>{
@@ -107,5 +124,7 @@ const mapDispatchToProps = (dispatch)=>{
     logout:()=>{dispatch(signOut())}
   }
 }
+
+
 export default connect(mapStateToProps,mapDispatchToProps)(App);
-//Binoy edit this also
+

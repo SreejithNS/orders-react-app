@@ -26,6 +26,26 @@ store.firebaseAuthIsReady.then(()=>{
                         type:"SET_SETTINGS",
                         payload:doc.data().settings
                     })
+                    if(doc.data().onSale) store.dispatch({
+                        type:"SET_SETTINGS",
+                        info:"ON SALE",
+                        payload:{
+                            onSale:doc.data().onSale,
+                            saleId:doc.data().saleId
+                        }
+                    })
+                    store.firestore.collection('users').doc(user.uid).onSnapshot(doc=>{
+                        if(doc.data().onSale !==  store.getState().user.user.onSale){
+                            if(doc.data().onSale) store.dispatch({
+                                type:"SET_SETTINGS",
+                                info:"ON SALE",
+                                payload:{
+                                    onSale:doc.data().onSale,
+                                    saleId:doc.data().saleId || ''
+                                }
+                            })
+                        }
+                    })
                     ReactDOM.render(
                         <Provider store={store}>
                             <Router>
@@ -34,22 +54,27 @@ store.firebaseAuthIsReady.then(()=>{
                             </Router>
                         </Provider>
                     , document.getElementById('root'));
-                    var elem = document.querySelector('#splash')
-                    elem.parentNode.removeChild(elem)
+                    var elem = document.querySelector('#splash');
+                    elem.parentNode.removeChild(elem);
                 }
             })
         }else{
             const provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider).then((user)=>{
-                return document.getElementById('loading-log').innerText="Welcome "+user.displayName;
+                if(document.getElementById('loading-log')) {
+                    return document.getElementById('loading-log').innerText="Welcome "+user.displayName;
+                }else{
+                    alert("For security reasons, App will be reloaded!\nPlease be patient.");
+                    window.location.reload();
+                }
             })
         }
     });
 })
 
+//       If you want your app to work offline and load faster, you can change
+//  unregister() to register() below. Note this comes with some pitfalls.
+//    
+//           Learn more about service workers: https://bit.ly/CRA-PWA
 
-//Binoy edited this file
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
