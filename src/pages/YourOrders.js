@@ -12,6 +12,7 @@ import {firestoreConnect} from 'react-redux-firebase';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import Loading from "./components/Loading"
+import {Redirect} from 'react-router-dom'; 
 var css = {
     root: {
       flexGrow: 1,
@@ -27,10 +28,12 @@ var css = {
 
 class YourOrders extends Component{
         state = {
-            pageTitle:'Your Orders'
+            pageTitle:'Your Orders',
+            newOrder:false
         }
     render(){
         const {state,props} = this;
+        const {newOrder} = this.state;
         return(
             <Fragment>
             <div className={props.classes.root}>
@@ -50,11 +53,11 @@ class YourOrders extends Component{
                     {(props.orders)?props.orders.map((order)=><OrderSummary data={order} key={order.id}/>):<Loading/>}
                 </Grid>
                 </div>
-                <Fab color="primary" aria-label="Add" style={{position:"absolute",bottom:"16px",right:"16px"}}>
+                <Fab color="primary" aria-label="Add" onClick={()=>this.setState({newOrder:true})} style={{position:"absolute",bottom:"16px",right:"16px"}}>
                 <Add />
             </Fab>
+            {newOrder?<Redirect to="/neworder"/>:""}
             </div>
-
             </Fragment>
         )
     }

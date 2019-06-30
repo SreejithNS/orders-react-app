@@ -107,6 +107,7 @@ class OrderSteps extends React.Component {
                 button2:"No",
                 button1Action:()=>{
                     this.props.createShop();
+                    this.setState({alert:{open:false}})
                 }
             }
         })

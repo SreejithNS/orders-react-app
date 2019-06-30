@@ -17,21 +17,27 @@ const buttonProps = {
 class Bill extends Component {
     state={
         dialogOpen:false,
-        discountPercentage:0
+        discountPercentage:0,
+        credit:false,
     }
     toggle(){
         this.setState({
             dialogOpen:!this.state.dialogOpen
         })
     }
+    toggleCredit(){
+        this.setState({
+            credit:!this.state.credit
+        })
+    }
 
     discount(){
         if(this.state.discountPercentage===0) return false;
         const {totalAmount} = this.props;
-        var amnt = Math.round(totalAmount*100)/100;
+        var amnt = Math.round(totalAmount);
         const {discountPercentage} = this.state;
         var discountAmount = (amnt*(discountPercentage/100))
-        const grandTotal = amnt-discountAmount;
+        const grandTotal = amnt-Math.round(discountAmount);
         return {
             discountAmount,discountPercentage,grandTotal
         }
@@ -42,6 +48,7 @@ class Bill extends Component {
         //return console.log(itemsList,user,shop);
         const bill = {};
         const {pricelistCode,location} = this.props;
+        const {credit} = this.state;
         var order = itemsList;
         order.forEach(item=>{
             item.quantity = parseInt(item.quantity);
@@ -52,7 +59,7 @@ class Bill extends Component {
         bill.discount= Boolean(discount);
         if(bill.discount){
             bill.discountPercentage = parseInt(this.state.discountPercentage);
-            bill.discountAmount = Math.floor(discount.discountAmount*100)/100;
+            bill.discountAmount = Math.round(discount.discountAmount);
         }
         bill.location = location;
         bill.orderedBy = user.uid;
@@ -60,10 +67,12 @@ class Bill extends Component {
         bill.priceListCode = pricelistCode;
         bill.shop = shop.id;
         bill.shopName = shop.name;
-        bill.grandTotal = (Math.floor(discount.grandTotal*100)/100) || Math.floor(totalAmount*100)/100;
-        bill.totalAmount = Math.floor(totalAmount*100)/100;
+        bill.grandTotal = (Math.round(discount.grandTotal)) || Math.round(totalAmount);
+        bill.totalAmount = Math.round(totalAmount);
         bill.date = new Date();
         bill.onSale = false;
+        bill.credit = credit;
+        bill.creditAmount = credit? bill.grandTotal : 0;
         if(this.props.settings.onSale) {
             bill.onSale = true;
             bill.saleId = this.props.settings.saleId;
@@ -74,6 +83,7 @@ class Bill extends Component {
 
     render(){
         const data = this.billData();
+
         return(
             <Fragment>
             <Paper style={{paddingTop:"6px",margin:"0px 6px"}}>
@@ -133,7 +143,7 @@ class Bill extends Component {
                         }
                         <TableRow>
                         <TableCell colSpan={1}/>
-                        <TableCell colSpan={2} align="right"><b>Grand Total</b></TableCell>
+                        <TableCell colSpan={2} align="right"><b>Grand Total</b>{data.credit?<Button variant="text" color="secondary">CREDITED</Button>:""}</TableCell>
                         <TableCell><b>{data.grandTotal}</b></TableCell>
                         </TableRow>
                         </TableBody>
@@ -141,6 +151,7 @@ class Bill extends Component {
             </Paper>
             <Paper style={{margin:"6px 8px",padding:"6px"}}>
                 <Button size="small" onClick={this.toggle.bind(this)} variant="outlined">{data.discount? "Change":"Provide"} Discount %</Button>
+                <Button size="small" onClick={this.toggleCredit.bind(this)} variant="outlined" color={data.credit?"secondary":"primary"}>{data.credit? "Credited":"Credit"}</Button>
             </Paper>
             <DiscountDialog
                     setDiscount={(perc)=>this.setState({discountPercentage:perc,discount:true})}

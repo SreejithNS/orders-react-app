@@ -24,7 +24,7 @@ export default class QuantityDialog extends Component {
       const {toggle,name,rate,code} = this.props;
       this.props.addItem({
           itemName:name,
-          rate,
+          rate:parseInt(rate),
           itemCode:code,
           quantity:parseInt(this.state.value),
           amount:Math.round(this.state.value*rate*100)/100
@@ -37,7 +37,7 @@ export default class QuantityDialog extends Component {
 
   onChange=(event)=>{
       var value = event.target.value;
-      this.setState({value:value});
+      if(value>0) {this.setState({value:value})}else{this.setState({value:0})};
   }
 
   render() {
